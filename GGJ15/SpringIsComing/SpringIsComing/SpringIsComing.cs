@@ -11,7 +11,7 @@ public class SpringIsComing : PhysicsGame
     const double movementSpeed = 200;
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
-    static Timer _timer;
+    static Timer timer;
 
     int levelNumber = 1;
 
@@ -151,21 +151,23 @@ public class SpringIsComing : PhysicsGame
         this.player2 = AddPlayer(position, width, height*2.5, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
-        this.player2.Animation.Start();
+        //this.player2.Animation.Start();
     }
 
-    /*
+    
     void TimerStart()
     {
-        _timer = new Timer();
-        _timer.Enabled = true;
-        _timer.Interval = 0.5;
-        _timer.Timeout += delegate { AnimationCheck(player1);
-                                     AnimationCheck(player2);
-                                   };
-        _timer.Start();
+        timer = new Timer();
+        timer.Enabled = true;
+        timer.Interval = 0.5;
+        timer.Timeout += delegate
+                        { 
+                            AnimationCheck(player1);
+                            AnimationCheck(player2);
+                        };
+        timer.Start();
     }
-    */
+    
 
     Player AddPlayer(Vector position, double width, double height, Image playerImage, int life)
     {
@@ -203,23 +205,28 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Down, ButtonState.Released, AnimationStop, "hio", player1);
         
         Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
-
+        /*
         Keyboard.Listen(Key.A,      ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.W,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0,  movementSpeed));
         Keyboard.Listen(Key.S,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, -movementSpeed));
-
+        */
 
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
-        /*ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
+        ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
 
-        ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
-        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+
+        ControllerOne.Listen(Button.DPadLeft,  ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
+        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
+        ControllerOne.Listen(Button.DPadUp,    ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, movementSpeed ));
+        ControllerOne.Listen(Button.DPadDown,  ButtonState.Down, Move, "Player 2: Move down",  player2, new Vector(             0, -movementSpeed));
+
+        ControllerOne.Listen(Button.A, ButtonState.Pressed, ThrowSnowball, "Player 2: Throw snowball", player2);
         //ControllerOne.Listen(Button.A, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
         
-        PhoneBackButton.Listen(ConfirmExit, "Lopeta peli"); */
+        //PhoneBackButton.Listen(ConfirmExit, "Lopeta peli"); 
     }
 
     void Move(PhysicsObject character, Vector direction)
@@ -275,6 +282,8 @@ public class SpringIsComing : PhysicsGame
         {
             character.ThrowProjectile(this, new Vector(0, -1));
             character.LifeCounter.Value -= snowballThrowCost;
+            character.Width = character.LifeCounter.Value;
+            character.Height = character.LifeCounter.Value;
         }
     }
 
