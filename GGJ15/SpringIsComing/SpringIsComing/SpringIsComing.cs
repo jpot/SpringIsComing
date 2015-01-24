@@ -85,7 +85,8 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('f', AddCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
-        level.SetTileMethod('s', AddFieryStone);
+        level.SetTileMethod('S', AddFieryStone);
+        level.SetTileMethod('s', AddFieryStone2);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -108,6 +109,11 @@ public class SpringIsComing : PhysicsGame
         newTile.Tag = tag;
         Add(newTile, layerNumber);
         return newTile;
+    }
+
+    void AddFieryStone2(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, hehkukiviImage, false, "hehkuvatkivet2");
     }
 
     void AddFieryStone(Vector position, double width, double height)
