@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>maali.wav</Source>
+      <Name>maali</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\maali.xnb</Output>
+      <Time>2015-01-24T09:19:14.4841699+02:00</Time>
+    </Item>
+    <Item>
+      <Source>norsu.png</Source>
+      <Name>norsu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\norsu.xnb</Output>
+      <Time>2015-01-24T09:19:14.4871724+02:00</Time>
+    </Item>
+    <Item>
+      <Source>tahti.png</Source>
+      <Name>tahti</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\tahti.xnb</Output>
+      <Time>2015-01-24T09:19:14.4891738+02:00</Time>
+    </Item>
+    <Item>
+      <Source>kentta1.txt</Source>
+      <Name>kentta1</Name>
+      <Importer>TextFileImporter</Importer>
+      <Processor>TextFileContentProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\kentta1.xnb</Output>
+      <Time>2015-01-24T09:19:14.4791693+02:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{FB1067CC-FEED-45F1-8CB8-8F3DD59AB260}</ContentProjectGUID>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComingContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Jypeli\lib\ContentExtensions\TextFileContentExtension.dll</Key>
+        <Value>2014-12-13T00:38:40+02:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2011-09-01T17:22:30+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2011-09-01T17:22:30+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2011-09-01T17:22:30+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2011-09-01T17:22:30+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2011-09-01T17:22:30+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2011-09-01T17:22:30+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Jypeli\lib\ContentExtensions\AnimationExtension.dll</Key>
+        <Value>2014-12-13T00:38:40+02:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2015-01-24T00:54:57.3112105+02:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

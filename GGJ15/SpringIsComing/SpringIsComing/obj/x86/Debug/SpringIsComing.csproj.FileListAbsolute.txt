@@ -1,0 +1,12 @@
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\maali.xnb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\norsu.xnb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\tahti.xnb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\kentta1.xnb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\SpringIsComing.exe
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\SpringIsComing.pdb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Jypeli.dll
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Jypeli.xml
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\obj\x86\Debug\SpringIsComing.csprojResolveAssemblyReference.cache
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\obj\x86\Debug\SpringIsComing.exe
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\obj\x86\Debug\SpringIsComing.pdb

@@ -21,19 +21,24 @@ public class SpringIsComing : PhysicsGame
 
     public override void Begin()
     {
-        Gravity = new Vector(0, -1000);
+        IsFullScreen = true;
 
-        LoadLevel();
+        LoadLevel("kentta1");
         AddKeys();
 
         Camera.Follow(player1);
         Camera.ZoomFactor = 1.2;
         Camera.StayInLevel = true;
+
+        Gravity = new Vector(0, -1000);
     }
 
-    void LoadLevel()
+    /// <summary>
+    /// Loads the level from a file
+    /// </summary>
+    void LoadLevel(String levelFile)
     {
-        TileMap level = TileMap.FromLevelAsset("kentta1");
+        TileMap level = TileMap.FromLevelAsset(levelFile);
         level.SetTileMethod('#', AddPlatform);
         level.SetTileMethod('*', AddStar);
         level.SetTileMethod('N', AddPlayer);
@@ -46,7 +51,7 @@ public class SpringIsComing : PhysicsGame
     {
         PhysicsObject platform = PhysicsObject.CreateStaticObject(width, height);
         platform.Position = position;
-        platform.Color = Color.Green;
+        platform.Color = Color.Gray;
         Add(platform);
     }
 
