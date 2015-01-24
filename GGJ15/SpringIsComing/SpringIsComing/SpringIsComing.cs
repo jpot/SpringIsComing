@@ -12,11 +12,14 @@ public class SpringIsComing : PhysicsGame
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
 
+    int levelNumber = 1;
+
     Player player1, player2;
 
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
+    Image flowerImage = LoadImage("kukka1");
     Image snowballImage = LoadImage("lumipallo");
     Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
     Image[] snowMan = LoadImages("BigLumiukkoJump8",
@@ -28,13 +31,28 @@ public class SpringIsComing : PhysicsGame
                                  "BigLumiukkoJump6");
                                  
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
+    Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
     {
         IsFullScreen = true;
+        LoadNextLevel();    
+    }
 
-        LoadLevel("kentta1");
+    /// <summary>
+    /// Clears the game and loads next level.
+    /// </summary>
+    void LoadNextLevel()
+    {
+        ClearAll();
+
+        if (levelNumber == 1) LoadLevel("kentta1");
+        else if (levelNumber == 2) LoadLevel("kentta2");
+        else if (levelNumber == 3) LoadLevel("kentta3");
+        else if (levelNumber == 4) LoadLevel("kentta4");
+        else if (levelNumber > 4) Exit();
+
         AddKeys();
 
         Camera.Follow(player1, player2);
@@ -50,44 +68,57 @@ public class SpringIsComing : PhysicsGame
     void LoadLevel(String levelFile)
     {
         TileMap level = TileMap.FromLevelAsset(levelFile);
-        level.SetTileMethod('#', AddPlatform);
+        level.SetTileMethod('#', AddWall);
         level.SetTileMethod('*', AddStar);
+        level.SetTileMethod('v', AddFlower);
         level.SetTileMethod('f', AddCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
-        Level.Background.CreateGradient(Color.White, Color.SkyBlue);
+        Level.Background.CreateGradient(Color.White, Color.Green);
     }
 
-    void AddPlatform(Vector position, double width, double height)
+    PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
-        PhysicsObject platform = PhysicsObject.CreateStaticObject(width, height);
-        platform.Position = position;
-        platform.Color = Color.Gray;
-        Add(platform);
+        int layerNumber = 0;
+        PhysicsObject newTile = PhysicsObject.CreateStaticObject(width, height);
+        newTile.IgnoresCollisionResponse = ignoresCollisionResponse;
+
+        // if it ignores collisions, it is drawn in the background layer
+        if (ignoresCollisionResponse)
+        {
+            layerNumber = -1;
+        }
+        newTile.Position = position;
+        newTile.Color = Color.Gray;
+        newTile.Image = image;
+        newTile.Tag = tag;
+        Add(newTile, layerNumber);
+        return newTile;
+    }
+
+    void AddWall(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, wallImage, false, "wall");
+    }
+
+    void AddFlower(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, flowerImage, true, "flower");
     }
 
     void AddStar(Vector position, double width, double height)
     {
-        PhysicsObject star = PhysicsObject.CreateStaticObject(width, height);
-        star.IgnoresCollisionResponse = true;
-        star.Position = position;
-        star.Image = starImage;
-        star.Tag = "star";
-        Add(star);
+        AddTile(position, width, height, starImage, true, "star");
     }
     
     void AddCampfire(Vector position, double width, double height)
     {
-        PhysicsObject campfire = PhysicsObject.CreateStaticObject(width, height);
-        //campfire.IgnoresCollisionResponse = true;
-        campfire.Position = position;
-        campfire.Tag = "campfire";
+        PhysicsObject campfire = AddTile(position, width, height, null, false, "campfire");
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;
         campfire.Animation.Start();
-        Add(campfire);
     }
 
     void AddPlayer1(Vector position, double width, double height)
