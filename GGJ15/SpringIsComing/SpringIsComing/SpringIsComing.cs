@@ -10,15 +10,15 @@ public class SpringIsComing : PhysicsGame
 {
     const double movementSpeed = 200;
     const double jumpSpeed = 750;
-    const int TILE_SIZE = 40;
+    public static int TILE_SIZE = 40;
 
-    PhysicsObject player1, player2;
+    Player player1, player2;
 
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
     Image campfireImage = LoadImage("nuotio");
-
+    Image snowballImage = LoadImage("lumipallo");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
@@ -72,7 +72,7 @@ public class SpringIsComing : PhysicsGame
     void AddCampfire(Vector position, double width, double height)
     {
         PhysicsObject campfire = PhysicsObject.CreateStaticObject(width, height);
-        campfire.IgnoresCollisionResponse = true;
+        //campfire.IgnoresCollisionResponse = true;
         campfire.Position = position;
         campfire.Image = campfireImage;
         campfire.Tag = "campfire";
@@ -89,9 +89,9 @@ public class SpringIsComing : PhysicsGame
         this.player2 = AddPlayer(position, width, height*2.5, player2Image);
     }
 
-    PhysicsObject AddPlayer(Vector position, double width, double height, Image playerImage)
+    Player AddPlayer(Vector position, double width, double height, Image playerImage)
     {
-        PhysicsObject newPlayer = new PhysicsObject(width, height);
+        Player newPlayer = new Player(width, height, snowballImage);
         newPlayer.Position = position;
         newPlayer.Mass = 1.0;
         newPlayer.Image = playerImage;
@@ -112,6 +112,8 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Right,  ButtonState.Down, Move, "Player 1: Move right", player1, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.Up,     ButtonState.Down, Move, "Player 1: Move up",    player1, new Vector(             0, movementSpeed ));
         Keyboard.Listen(Key.Down,   ButtonState.Down, Move, "Player 1: Move down",  player1, new Vector(             0, -movementSpeed));
+
+        Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
 
         Keyboard.Listen(Key.A,      ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
@@ -152,5 +154,11 @@ public class SpringIsComing : PhysicsGame
     void HitCampfire(PhysicsObject collider, PhysicsObject target)
     {
         MessageDisplay.Add("Ouch!");
+    }
+
+    void ThrowSnowball(Player character)
+    {
+        character.ThrowProjectile(this, new Vector(0, -1));
+
     }
 }

@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ohjelma.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="SpringIsComing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
