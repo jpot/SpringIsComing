@@ -338,7 +338,7 @@ public class SpringIsComing : PhysicsGame
         // You may not throw snowballs if it would kill you
         if (character.LifeCounter > snowballThrowCost)
         {
-            character.ThrowProjectile(this, new Vector(0, -1), "snow");
+            character.ThrowProjectile(this, character.Velocity, "snow");
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;

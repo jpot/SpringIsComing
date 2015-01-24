@@ -44,6 +44,8 @@ class Player : PhysicsObject
 
     public void ThrowProjectile(PhysicsGame game, Vector direction, string tag)
     {
+        this.Weapon.Angle = direction.Normalize().Angle;
+
         PhysicsObject projectile = this.Weapon.Shoot();
         if (projectile != null)
         {
