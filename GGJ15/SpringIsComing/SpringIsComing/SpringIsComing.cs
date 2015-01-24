@@ -13,18 +13,19 @@ public class SpringIsComing : PhysicsGame
     public static int TILE_SIZE = 40;
     static Timer timer;
 
-    int levelNumber = 1;
+    int levelNumber = 4;
 
     int maximumLifeForPlayer1 = 100;
     int maximumLifeForPlayer2 = 100;
 
     int snowballThrowCost = 10;
     int snowHealAmount = 10;
-    int smallDamage = 15;
-    int greatDamage = 30;
+    int smallDamage = 2;
+    int greatDamage = 5;
 
     Player player1, player2;
 
+    // TODO add water image
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
@@ -90,6 +91,7 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('2', AddPlayer2);
         level.SetTileMethod('S', AddFieryStone);
         level.SetTileMethod('s', AddFieryStone2);
+        level.SetTileMethod('V', AddWaterContainer);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -112,6 +114,18 @@ public class SpringIsComing : PhysicsGame
         newTile.Tag = tag;
         Add(newTile, layerNumber);
         return newTile;
+    }
+
+    PhysicsObject AddPushableObject(Vector position, double width, double height, Image image, String tag)
+    {
+        PhysicsObject newPushableObject = new PhysicsObject(width, height, Shape.Rectangle);
+        newPushableObject.Position = position;
+        newPushableObject.Color = Color.Blue;
+        newPushableObject.CanRotate = false;
+        newPushableObject.Image = image;
+        newPushableObject.Tag = tag;
+        Add(newPushableObject);
+        return newPushableObject;
     }
 
     void AddFieryStone2(Vector position, double width, double height)
@@ -145,6 +159,13 @@ public class SpringIsComing : PhysicsGame
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;
         campfire.Animation.Start();
+    }
+
+    void AddWaterContainer(Vector position, double width, double height)
+    {
+        // TODO switch null to water image
+        PhysicsObject watercontainer = AddPushableObject(position, width, height, null, "water");
+        AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
 
     void AddPlayer1(Vector position, double width, double height)
@@ -190,7 +211,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.Image = playerImage;
         newPlayer.LinearDamping = 0.95;
         newPlayer.CanRotate = false;
-        //AddCollisionHandler(newPlayer, "star", HitStar);
+        AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
         AddCollisionHandler(newPlayer, "snow", HitSnow);
         Add(newPlayer);
@@ -321,8 +342,21 @@ public class SpringIsComing : PhysicsGame
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
-
+            // TODO: destroy snowballs after time?
         }
+    }
+
+    void Extinguish(PhysicsObject collider, PhysicsObject target)
+    {
+        Explosion splash = new Explosion(TILE_SIZE);
+        splash.Position = target.Position;
+        Add(splash);
+        splash.Image = null;
+        splash.ShockwaveColor = Color.Blue;
+        splash.Sound = null; // TODO add soundeffect
+
+        collider.Destroy();
+        target.Destroy();
     }
 
     void HitGoal(PhysicsObject character, PhysicsObject goal)
