@@ -27,13 +27,14 @@ public class SpringIsComing : PhysicsGame
     Image flowerImage = LoadImage("kukka1");
     Image snowballImage = LoadImage("lumipallo");
     Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
-    Image[] snowMan = LoadImages("BigLumiukkoJump1",
+    Image[] snowMan = LoadImages("BigLumiukkoJump8",
+                                 "BigLumiukkoJump1",
                                  "BigLumiukkoJump2",
                                  "BigLumiukkoJump3",
                                  "BigLumiukkoJump4",
                                  "BigLumiukkoJump5",
-                                 "BigLumiukkoJump6",
-                                 "BigLumiukkoJump7");
+                                 "BigLumiukkoJump6");
+                                 
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
@@ -130,7 +131,7 @@ public class SpringIsComing : PhysicsGame
         this.player1 = AddPlayer(position, width, height*2, playerImage, maximumLifeForPlayer1);
         this.player1.Animation = new Animation(snowMan);
         this.player1.Animation.FPS = 10;
-        this.player1.Animation.Start();
+        //this.player1.Animation.Start();
     }
 
     void AddPlayer2(Vector position, double width, double height)
@@ -167,6 +168,15 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Up,     ButtonState.Down, Move, "Player 1: Move up",    player1, new Vector(             0, movementSpeed ));
         Keyboard.Listen(Key.Down,   ButtonState.Down, Move, "Player 1: Move down",  player1, new Vector(             0, -movementSpeed));
 
+        Keyboard.Listen(Key.Left, ButtonState.Pressed, AnimationStart, "hio", player1);
+        Keyboard.Listen(Key.Left, ButtonState.Released, AnimationStop, "hio", player1);
+        Keyboard.Listen(Key.Right, ButtonState.Pressed, AnimationStart, "hio", player1);
+        Keyboard.Listen(Key.Right, ButtonState.Released, AnimationStop, "hio", player1);
+        Keyboard.Listen(Key.Up, ButtonState.Pressed, AnimationStart, "hio", player1);
+        Keyboard.Listen(Key.Up, ButtonState.Released, AnimationStop, "hio", player1);
+        Keyboard.Listen(Key.Down, ButtonState.Pressed, AnimationStart, "hio", player1);
+        Keyboard.Listen(Key.Down, ButtonState.Released, AnimationStop, "hio", player1);
+
         Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
 
         Keyboard.Listen(Key.A,      ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
@@ -192,7 +202,17 @@ public class SpringIsComing : PhysicsGame
         character.Push(direction);
         //character.Position += direction;
     }
+    
+    void AnimationStart(PhysicsObject character)
+    {
+        character.Animation.Start();
+    }
 
+    void AnimationStop(PhysicsObject character)
+    {
+        character.Animation.Stop();
+    }
+    
     /*void Jump(PlatformCharacter character, double speed)
     {
         character.Jump(speed);
