@@ -290,14 +290,14 @@ public class SpringIsComing : PhysicsGame
 
     void HitGreatFire(PhysicsObject collider, PhysicsObject target)
     {
-        ((Player)collider).LifeCounter.Value -= greatDamage;
+        ((Player)collider).ChangeLifeCounterValue(-greatDamage);
         MessageDisplay.Add("Aargh!");
     }
 
     
     void HitSmallFire(PhysicsObject collider, PhysicsObject target)
     {
-        ((Player)collider).LifeCounter.Value -= smallDamage;
+        ((Player)collider).ChangeLifeCounterValue(-smallDamage);
         MessageDisplay.Add("Ouch!");
     }
 
