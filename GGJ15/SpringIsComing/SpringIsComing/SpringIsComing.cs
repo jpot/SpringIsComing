@@ -14,6 +14,11 @@ public class SpringIsComing : PhysicsGame
 
     int levelNumber = 1;
 
+    int maximumLifeForPlayer1 = 100;
+    int maximumLifeForPlayer2 = 100;
+
+    int snowballThrowCost = 10;
+
     Player player1, player2;
 
     Image playerImage = LoadImage("Lumiukko");
@@ -122,7 +127,7 @@ public class SpringIsComing : PhysicsGame
 
     void AddPlayer1(Vector position, double width, double height)
     {
-        this.player1 = AddPlayer(position, width, height*2, playerImage);
+        this.player1 = AddPlayer(position, width, height*2, playerImage, maximumLifeForPlayer1);
         this.player1.Animation = new Animation(snowMan);
         this.player1.Animation.FPS = 10;
         this.player1.Animation.Start();
@@ -130,15 +135,17 @@ public class SpringIsComing : PhysicsGame
 
     void AddPlayer2(Vector position, double width, double height)
     {
-        this.player2 = AddPlayer(position, width, height*2.5, player2Image);
+        this.player2 = AddPlayer(position, width, height*2.5, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
         this.player2.Animation.Start();
     }
 
-    Player AddPlayer(Vector position, double width, double height, Image playerImage)
+    Player AddPlayer(Vector position, double width, double height, Image playerImage, int life)
     {
         Player newPlayer = new Player(width, height, snowballImage);
+        newPlayer.LifeCounter.MaxValue = life;
+        newPlayer.LifeCounter.Value = newPlayer.LifeCounter.MaxValue;
         newPlayer.Position = position;
         newPlayer.Mass = 1.0;
         newPlayer.Image = playerImage;
@@ -205,7 +212,18 @@ public class SpringIsComing : PhysicsGame
 
     void ThrowSnowball(Player character)
     {
-        character.ThrowProjectile(this, new Vector(0, -1));
+        // You may not throw snowballs if it would kill you
+        if (character.LifeCounter > snowballThrowCost)
+        {
+            character.ThrowProjectile(this, new Vector(0, -1));
+            character.LifeCounter.Value -= snowballThrowCost;
+        }
+    }
 
+    void HitGoal(PhysicsObject character, PhysicsObject goal)
+    {
+        // Increase level number and load the next level
+        levelNumber++;
+        LoadNextLevel();
     }
 }

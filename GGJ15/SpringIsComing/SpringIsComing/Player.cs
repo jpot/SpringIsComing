@@ -4,7 +4,7 @@ using Jypeli.Assets;
 
 class Player : PhysicsObject
 {
-    private IntMeter lifeCounter = new IntMeter(3, 0, 3);
+    private IntMeter lifeCounter = new IntMeter(100, 0, 100);
     public  IntMeter LifeCounter { get { return lifeCounter; } }
     public AssaultRifle Weapon { get { return weapon; } set { weapon = value; } }
     private AssaultRifle weapon;
@@ -18,7 +18,7 @@ class Player : PhysicsObject
         this.ProjectileImage = projectileImage;
         this.Weapon = new AssaultRifle(20, 5);
         this.Weapon.Angle = Angle.FromDegrees(270);
-        this.Weapon.Power.DefaultValue = 100; // default speed for ammunition
+        this.Weapon.Power.DefaultValue = 40; // default speed for ammunition
         this.Weapon.Power.Value = this.Weapon.Power.DefaultValue; // next ammo speed
         this.Add(Weapon);
     }
