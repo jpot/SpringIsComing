@@ -12,6 +12,8 @@ public class SpringIsComing : PhysicsGame
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
 
+    int levelNumber = 1;
+
     Player player1, player2;
 
     Image playerImage = LoadImage("Lumiukko");
@@ -34,8 +36,22 @@ public class SpringIsComing : PhysicsGame
     public override void Begin()
     {
         IsFullScreen = true;
+        LoadNextLevel();    
+    }
 
-        LoadLevel("kentta1");
+    /// <summary>
+    /// Clears the game and loads next level.
+    /// </summary>
+    void LoadNextLevel()
+    {
+        ClearAll();
+
+        if (levelNumber == 1) LoadLevel("kentta1");
+        else if (levelNumber == 2) LoadLevel("kentta2");
+        else if (levelNumber == 3) LoadLevel("kentta3");
+        else if (levelNumber == 4) LoadLevel("kentta4");
+        else if (levelNumber > 4) Exit();
+
         AddKeys();
 
         Camera.Follow(player1, player2);
@@ -59,7 +75,7 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('2', AddPlayer2);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
-        Level.Background.CreateGradient(Color.White, Color.SkyBlue);
+        Level.Background.CreateGradient(Color.White, Color.Green);
     }
 
     PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
