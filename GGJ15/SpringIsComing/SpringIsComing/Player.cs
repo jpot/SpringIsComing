@@ -10,20 +10,23 @@ class Player : PhysicsObject
         { 
             return lifeCounter;
         } 
-        set
+        /*set
         { 
-            this.lifeCounter.Value = value;
+            this.lifeCounter = value;
             this.Scale();
-        } 
+        } */
     }
+    
     public AssaultRifle Weapon { get { return weapon; } set { weapon = value; } }
     private AssaultRifle weapon;
     public Image ProjectileImage { get { return projectileImage; } set { projectileImage = value; } }
     private Image projectileImage;
+    private Game parentGame;
 
-    public Player(double width, double height, Image projectileImage)
+    public Player(double width, double height, Game game, Image projectileImage)
         : base(width, height)
     {
+        this.parentGame = game;
         lifeCounter.LowerLimit += delegate { this.Destroy(); };
         this.ProjectileImage = projectileImage;
         this.Weapon = new AssaultRifle(20, 5);
@@ -43,8 +46,21 @@ class Player : PhysicsObject
             
         }
     }
+    public void ChangeLifeCounterValue(int change)
+    {
+        this.LifeCounter.Value += change;
+        Scale();
+    }
     public void Scale()
     {
-        //this.Width = 
+
+        
+        double multiplier = (this.LifeCounter.Value - this.LifeCounter.MinValue) / (1.0*(this.LifeCounter.MaxValue - this.LifeCounter.MinValue));
+        //this.parentGame.MessageDisplay.Add("multiplier: " + multiplier.ToString());
+        double widthMax = 150;
+        double widthMin = 20;
+        this.Width = (multiplier * (widthMax - widthMin) ) + widthMin;
+        //this.parentGame.MessageDisplay.Add("width: " + this.Width.ToString());
+
     }
 }

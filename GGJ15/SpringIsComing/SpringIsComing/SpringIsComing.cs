@@ -178,9 +178,11 @@ public class SpringIsComing : PhysicsGame
 
     Player AddPlayer(Vector position, double width, double height, Image playerImage, int life)
     {
-        Player newPlayer = new Player(width, height, snowballImage);
+        Player newPlayer = new Player(width, height, this, snowballImage);
         newPlayer.LifeCounter.MaxValue = life;
         newPlayer.LifeCounter.Value = newPlayer.LifeCounter.MaxValue;
+        newPlayer.Scale(); // TODO make this happen automatically if value or maxvalue is changed (add .ChangeMaxValue for class Player)
+
         newPlayer.Position = position;
         newPlayer.Mass = 1.0;
         newPlayer.Image = playerImage;
@@ -287,7 +289,7 @@ public class SpringIsComing : PhysicsGame
     {
         if (((Player)collider).LifeCounter.Value < ((Player)collider).LifeCounter.MaxValue)
         {
-            ((Player)collider).LifeCounter.Value += snowHealAmount;
+            ((Player)collider).ChangeLifeCounterValue(snowHealAmount);
             MessageDisplay.Add("Gained life!");
             target.Destroy();
         }
@@ -299,9 +301,9 @@ public class SpringIsComing : PhysicsGame
         if (character.LifeCounter > snowballThrowCost)
         {
             character.ThrowProjectile(this, new Vector(0, -1));
-            character.LifeCounter.Value -= snowballThrowCost;
-            character.Width = character.LifeCounter.Value;
-            character.Height = character.LifeCounter.Value;
+            character.ChangeLifeCounterValue(-snowballThrowCost);
+            //character.Width = character.LifeCounter.Value;
+            //character.Height = character.LifeCounter.Value;
         }
     }
 
