@@ -20,6 +20,8 @@ public class SpringIsComing : PhysicsGame
 
     int snowballThrowCost = 10;
     int snowHealAmount = 10;
+    int smallDamage = 15;
+    int greatDamage = 30;
 
     Player player1, player2;
 
@@ -280,8 +282,23 @@ public class SpringIsComing : PhysicsGame
 
     void HitCampfire(PhysicsObject collider, PhysicsObject target)
     {
+        HitGreatFire(collider, target);
+    }
+
+
+    void HitGreatFire(PhysicsObject collider, PhysicsObject target)
+    {
+        ((Player)collider).LifeCounter.Value -= greatDamage;
+        MessageDisplay.Add("Aargh!");
+    }
+
+    
+    void HitSmallFire(PhysicsObject collider, PhysicsObject target)
+    {
+        ((Player)collider).LifeCounter.Value -= smallDamage;
         MessageDisplay.Add("Ouch!");
     }
+
 
     void HitSnow(PhysicsObject collider, PhysicsObject target)
     {
