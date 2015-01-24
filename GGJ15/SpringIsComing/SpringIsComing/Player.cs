@@ -5,7 +5,17 @@ using Jypeli.Assets;
 class Player : PhysicsObject
 {
     private IntMeter lifeCounter = new IntMeter(100, 0, 100);
-    public  IntMeter LifeCounter { get { return lifeCounter; } }
+    public IntMeter LifeCounter { 
+        get
+        { 
+            return lifeCounter;
+        } 
+        set
+        { 
+            this.lifeCounter.Value = value;
+            this.Scale();
+        } 
+    }
     public AssaultRifle Weapon { get { return weapon; } set { weapon = value; } }
     private AssaultRifle weapon;
     public Image ProjectileImage { get { return projectileImage; } set { projectileImage = value; } }
@@ -32,5 +42,9 @@ class Player : PhysicsObject
             projectile.Image = projectileImage;
             
         }
+    }
+    public void Scale()
+    {
+        //this.Width = 
     }
 }
