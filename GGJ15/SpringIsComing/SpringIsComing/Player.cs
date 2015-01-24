@@ -31,6 +31,11 @@ class Player : PhysicsObject
         this.Weapon.Power.DefaultValue = 40; // default speed for ammunition
         this.Weapon.Power.Value = this.Weapon.Power.DefaultValue; // next ammo speed
         this.Weapon.CanHitOwner = true;
+        
+        // hides the weapon
+        this.Weapon.Image = null;
+        this.Weapon.Color = Color.Transparent;
+        
         this.Add(Weapon);
     }
 
