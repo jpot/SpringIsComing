@@ -12,7 +12,7 @@ public class SpringIsComing : PhysicsGame
     const double jumpSpeed = 750;
     const int TILE_SIZE = 40;
 
-    PlatformCharacter player1;
+    PlatformCharacter player1, player2;
 
     Image playerImage = LoadImage("norsu");
     Image starImage = LoadImage("tahti");
@@ -26,7 +26,7 @@ public class SpringIsComing : PhysicsGame
         LoadLevel("kentta1");
         AddKeys();
 
-        Camera.Follow(player1);
+        Camera.Follow(player1, player2);
         Camera.ZoomFactor = 1.2;
         Camera.StayInLevel = true;
 
@@ -41,7 +41,8 @@ public class SpringIsComing : PhysicsGame
         TileMap level = TileMap.FromLevelAsset(levelFile);
         level.SetTileMethod('#', AddPlatform);
         level.SetTileMethod('*', AddStar);
-        level.SetTileMethod('N', AddPlayer);
+        level.SetTileMethod('1', AddPlayer1);
+        level.SetTileMethod('2', AddPlayer2);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.SkyBlue);
@@ -65,14 +66,25 @@ public class SpringIsComing : PhysicsGame
         Add(star);
     }
 
-    void AddPlayer(Vector position, double width, double height)
+    void AddPlayer1(Vector position, double width, double height)
     {
-        player1 = new PlatformCharacter(width, height);
-        player1.Position = position;
-        player1.Mass = 4.0;
-        player1.Image = playerImage;
-        AddCollisionHandler(player1, "star", HitStar);
-        Add(player1);
+        this.player1 = AddPlayer(position, width, height, playerImage);
+    }
+
+    void AddPlayer2(Vector position, double width, double height)
+    {
+        this.player2 = AddPlayer(position, width, height, playerImage);
+    }
+
+    PlatformCharacter AddPlayer(Vector position, double width, double height, Image playerImage)
+    {
+        PlatformCharacter newPlayer = new PlatformCharacter(width, height);
+        newPlayer.Position = position;
+        newPlayer.Mass = 4.0;
+        newPlayer.Image = playerImage;
+        AddCollisionHandler(newPlayer, "star", HitStar);
+        Add(newPlayer);
+        return newPlayer;
     }
 
     void AddKeys()
@@ -81,13 +93,13 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Exit");
 
         Keyboard.Listen(Key.Left, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
-        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player2, movementSpeed);
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
         ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
 
         ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
-        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 1: Move right", player2, movementSpeed);
         //ControllerOne.Listen(Button.A, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
