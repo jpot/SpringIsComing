@@ -19,6 +19,7 @@ public class SpringIsComing : PhysicsGame
     Image starImage = LoadImage("tahti");
     Image campfireImage = LoadImage("nuotio");
     Image snowballImage = LoadImage("lumipallo");
+    private Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
@@ -76,6 +77,9 @@ public class SpringIsComing : PhysicsGame
         campfire.Position = position;
         campfire.Image = campfireImage;
         campfire.Tag = "campfire";
+        campfire.Animation = new Animation(campFire);
+        campfire.Animation.FPS = 5;
+        campfire.Animation.Start();
         Add(campfire);
     }
 
