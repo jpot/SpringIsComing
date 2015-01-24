@@ -8,7 +8,7 @@ using Jypeli.Widgets;
 
 public class SpringIsComing : PhysicsGame
 {
-    const double movementSpeed = 200;
+    const double movementSpeed = 100;
     const double jumpSpeed = 750;
     const int TILE_SIZE = 40;
 
@@ -31,7 +31,7 @@ public class SpringIsComing : PhysicsGame
         Camera.ZoomFactor = 1.2;
         //Camera.StayInLevel = true;
 
-        Gravity = new Vector(0, -1000);
+        //Gravity = new Vector(0, -1000);
     }
 
     /// <summary>
@@ -92,8 +92,9 @@ public class SpringIsComing : PhysicsGame
     {
         PlatformCharacter newPlayer = new PlatformCharacter(width, height);
         newPlayer.Position = position;
-        newPlayer.Mass = 4.0;
+        newPlayer.Mass = 1.0;
         newPlayer.Image = playerImage;
+        newPlayer.LinearDamping = 0.95;
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
         Add(newPlayer);
@@ -105,11 +106,13 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Show help");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Exit");
 
-        Keyboard.Listen(Key.Left, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
-        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+        Keyboard.Listen(Key.Left, ButtonState.Down, Move, "Player 1: Move left", player1, new Vector(-movementSpeed*10, 0));
+        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player1, new Vector(movementSpeed*10, 0));
+        Keyboard.Listen(Key.Up, ButtonState.Down, Move, "Player 1: Move up", player1, new Vector(0, movementSpeed));
+        Keyboard.Listen(Key.Down, ButtonState.Down, Move, "Player 1: Move down", player1, new Vector(0, -movementSpeed));
 
-        Keyboard.Listen(Key.A, ButtonState.Down, Move, "Player 2: Move left", player2, -movementSpeed);
-        Keyboard.Listen(Key.D, ButtonState.Down, Move, "Player 2: Move right", player2, movementSpeed);
+        Keyboard.Listen(Key.A, ButtonState.Down, Move, "Player 2: Move left", player2, new Vector(-movementSpeed, 0));
+        Keyboard.Listen(Key.D, ButtonState.Down, Move, "Player 2: Move right", player2, new Vector(movementSpeed, 0));
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
@@ -122,9 +125,10 @@ public class SpringIsComing : PhysicsGame
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli"); */
     }
 
-    void Move(PlatformCharacter character, double speed)
+    void Move(PlatformCharacter character, Vector direction)
     {
-        character.Walk(speed);
+        character.Push(direction);
+        //character.Position += direction;
     }
 
     void Jump(PlatformCharacter character, double speed)
