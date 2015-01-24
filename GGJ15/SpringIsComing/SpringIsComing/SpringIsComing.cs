@@ -8,100 +8,100 @@ using Jypeli.Widgets;
 
 public class SpringIsComing : PhysicsGame
 {
-    const double nopeus = 200;
-    const double hyppyNopeus = 750;
-    const int RUUDUN_KOKO = 40;
+    const double movementSpeed = 200;
+    const double jumpSpeed = 750;
+    const int TILE_SIZE = 40;
 
-    PlatformCharacter pelaaja1;
+    PlatformCharacter player1;
 
-    Image pelaajanKuva = LoadImage("norsu");
-    Image tahtiKuva = LoadImage("tahti");
+    Image playerImage = LoadImage("norsu");
+    Image starImage = LoadImage("tahti");
 
-    SoundEffect maaliAani = LoadSoundEffect("maali");
+    SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
     {
         Gravity = new Vector(0, -1000);
 
-        LuoKentta();
-        LisaaNappaimet();
+        LoadLevel();
+        AddKeys();
 
-        Camera.Follow(pelaaja1);
+        Camera.Follow(player1);
         Camera.ZoomFactor = 1.2;
         Camera.StayInLevel = true;
     }
 
-    void LuoKentta()
+    void LoadLevel()
     {
-        TileMap kentta = TileMap.FromLevelAsset("kentta1");
-        kentta.SetTileMethod('#', LisaaTaso);
-        kentta.SetTileMethod('*', LisaaTahti);
-        kentta.SetTileMethod('N', LisaaPelaaja);
-        kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
+        TileMap level = TileMap.FromLevelAsset("kentta1");
+        level.SetTileMethod('#', AddPlatform);
+        level.SetTileMethod('*', AddStar);
+        level.SetTileMethod('N', AddPlayer);
+        level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.SkyBlue);
     }
 
-    void LisaaTaso(Vector paikka, double leveys, double korkeus)
+    void AddPlatform(Vector position, double width, double height)
     {
-        PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
-        taso.Position = paikka;
-        taso.Color = Color.Green;
-        Add(taso);
+        PhysicsObject platform = PhysicsObject.CreateStaticObject(width, height);
+        platform.Position = position;
+        platform.Color = Color.Green;
+        Add(platform);
     }
 
-    void LisaaTahti(Vector paikka, double leveys, double korkeus)
+    void AddStar(Vector position, double width, double height)
     {
-        PhysicsObject tahti = PhysicsObject.CreateStaticObject(leveys, korkeus);
-        tahti.IgnoresCollisionResponse = true;
-        tahti.Position = paikka;
-        tahti.Image = tahtiKuva;
-        tahti.Tag = "tahti";
-        Add(tahti);
+        PhysicsObject star = PhysicsObject.CreateStaticObject(width, height);
+        star.IgnoresCollisionResponse = true;
+        star.Position = position;
+        star.Image = starImage;
+        star.Tag = "star";
+        Add(star);
     }
 
-    void LisaaPelaaja(Vector paikka, double leveys, double korkeus)
+    void AddPlayer(Vector position, double width, double height)
     {
-        pelaaja1 = new PlatformCharacter(leveys, korkeus);
-        pelaaja1.Position = paikka;
-        pelaaja1.Mass = 4.0;
-        pelaaja1.Image = pelaajanKuva;
-        AddCollisionHandler(pelaaja1, "tahti", TormaaTahteen);
-        Add(pelaaja1);
+        player1 = new PlatformCharacter(width, height);
+        player1.Position = position;
+        player1.Mass = 4.0;
+        player1.Image = playerImage;
+        AddCollisionHandler(player1, "star", HitStar);
+        Add(player1);
     }
 
-    void LisaaNappaimet()
+    void AddKeys()
     {
-        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
-        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
+        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Show help");
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Exit");
 
-        Keyboard.Listen(Key.Left, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", pelaaja1, -nopeus);
-        Keyboard.Listen(Key.Right, ButtonState.Down, Liikuta, "Liikkuu oikealle", pelaaja1, nopeus);
-        Keyboard.Listen(Key.Up, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, hyppyNopeus);
+        Keyboard.Listen(Key.Left, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
+        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+        //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
-        ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu pelistä");
+        ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
 
-        ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Liikuta, "Pelaaja liikkuu vasemmalle", pelaaja1, -nopeus);
-        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Liikuta, "Pelaaja liikkuu oikealle", pelaaja1, nopeus);
-        ControllerOne.Listen(Button.A, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, hyppyNopeus);
+        ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
+        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+        //ControllerOne.Listen(Button.A, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
     }
 
-    void Liikuta(PlatformCharacter hahmo, double nopeus)
+    void Move(PlatformCharacter character, double speed)
     {
-        hahmo.Walk(nopeus);
+        character.Walk(speed);
     }
 
-    void Hyppaa(PlatformCharacter hahmo, double nopeus)
+    void Jump(PlatformCharacter character, double speed)
     {
-        hahmo.Jump(nopeus);
+        character.Jump(speed);
     }
 
-    void TormaaTahteen(PhysicsObject hahmo, PhysicsObject tahti)
+    void HitStar(PhysicsObject character, PhysicsObject speed)
     {
-        maaliAani.Play();
-        MessageDisplay.Add("Keräsit tähden!");
-        tahti.Destroy();
+        goalSound.Play();
+        MessageDisplay.Add("You have collected a star!");
+        speed.Destroy();
     }
 }
