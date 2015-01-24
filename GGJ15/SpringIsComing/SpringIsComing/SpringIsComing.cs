@@ -18,7 +18,15 @@ public class SpringIsComing : PhysicsGame
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
     Image campfireImage = LoadImage("nuotio");
-    private Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
+    Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
+    Image[] snowMan = LoadImages("BigLumiukkoJump1",
+                                 "BigLumiukkoJump2",
+                                 "BigLumiukkoJump3",
+                                 "BigLumiukkoJump4",
+                                 "BigLumiukkoJump5",
+                                 "BigLumiukkoJump6",
+                                 "BigLumiukkoJump7",
+                                 "BigLumiukkoJump8");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
