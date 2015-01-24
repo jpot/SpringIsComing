@@ -17,9 +17,16 @@ public class SpringIsComing : PhysicsGame
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
-    Image campfireImage = LoadImage("nuotio");
     Image snowballImage = LoadImage("lumipallo");
-    private Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
+    Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
+    Image[] snowMan = LoadImages("BigLumiukkoJump1",
+                                 "BigLumiukkoJump2",
+                                 "BigLumiukkoJump3",
+                                 "BigLumiukkoJump4",
+                                 "BigLumiukkoJump5",
+                                 "BigLumiukkoJump6",
+                                 "BigLumiukkoJump7",
+                                 "BigLumiukkoJump8");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
@@ -75,7 +82,6 @@ public class SpringIsComing : PhysicsGame
         PhysicsObject campfire = PhysicsObject.CreateStaticObject(width, height);
         //campfire.IgnoresCollisionResponse = true;
         campfire.Position = position;
-        campfire.Image = campfireImage;
         campfire.Tag = "campfire";
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;

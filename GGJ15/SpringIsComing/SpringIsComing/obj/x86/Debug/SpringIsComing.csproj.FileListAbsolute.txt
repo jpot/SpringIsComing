@@ -19,3 +19,5 @@ C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\Sprin
 C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\kukka1.xnb
 C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\Lumiukko.xnb
 C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\LumiukkoPlaceholderd.xnb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\nuotio2.xnb
+C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\nuotio3.xnb

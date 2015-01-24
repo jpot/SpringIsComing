@@ -73,6 +73,24 @@
       <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\LumiukkoPlaceholderd.xnb</Output>
       <Time>2015-01-24T12:59:46.039926+02:00</Time>
     </Item>
+    <Item>
+      <Source>nuotio2.png</Source>
+      <Name>nuotio2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\nuotio2.xnb</Output>
+      <Time>2015-01-24T13:46:10.3070351+02:00</Time>
+    </Item>
+    <Item>
+      <Source>nuotio3.png</Source>
+      <Name>nuotio3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\nuotio3.xnb</Output>
+      <Time>2015-01-24T13:46:10.3120378+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{FB1067CC-FEED-45F1-8CB8-8F3DD59AB260}</ContentProjectGUID>
