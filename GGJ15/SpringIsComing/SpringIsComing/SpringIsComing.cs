@@ -17,6 +17,7 @@ public class SpringIsComing : PhysicsGame
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
+    Image flowerImage = LoadImage("kukka1");
     Image snowballImage = LoadImage("lumipallo");
     Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
     Image[] snowMan = LoadImages("BigLumiukkoJump1",
@@ -27,6 +28,7 @@ public class SpringIsComing : PhysicsGame
                                  "BigLumiukkoJump6",
                                  "BigLumiukkoJump7");
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
+    Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
@@ -49,8 +51,9 @@ public class SpringIsComing : PhysicsGame
     void LoadLevel(String levelFile)
     {
         TileMap level = TileMap.FromLevelAsset(levelFile);
-        level.SetTileMethod('#', AddPlatform);
+        level.SetTileMethod('#', AddWall);
         level.SetTileMethod('*', AddStar);
+        level.SetTileMethod('v', AddFlower);
         level.SetTileMethod('f', AddCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
@@ -59,12 +62,31 @@ public class SpringIsComing : PhysicsGame
         Level.Background.CreateGradient(Color.White, Color.SkyBlue);
     }
 
-    void AddPlatform(Vector position, double width, double height)
+    void AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse)
     {
-        PhysicsObject platform = PhysicsObject.CreateStaticObject(width, height);
-        platform.Position = position;
-        platform.Color = Color.Gray;
-        Add(platform);
+        int layerNumber = 0;
+        PhysicsObject newTile = PhysicsObject.CreateStaticObject(width, height);
+        newTile.IgnoresCollisionResponse = ignoresCollisionResponse;
+
+        // if it ignores collisions, it is drawn in the background layer
+        if (ignoresCollisionResponse)
+        {
+            layerNumber = -1;
+        }
+        newTile.Position = position;
+        newTile.Color = Color.Gray;
+        newTile.Image = image;
+        Add(newTile, layerNumber);
+    }
+
+    void AddWall(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, wallImage, false);
+    }
+
+    void AddFlower(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, flowerImage, true);
     }
 
     void AddStar(Vector position, double width, double height)
