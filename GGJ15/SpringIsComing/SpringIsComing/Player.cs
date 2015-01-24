@@ -33,17 +33,23 @@ class Player : PhysicsObject
         this.Weapon.Angle = Angle.FromDegrees(270);
         this.Weapon.Power.DefaultValue = 40; // default speed for ammunition
         this.Weapon.Power.Value = this.Weapon.Power.DefaultValue; // next ammo speed
+        this.Weapon.CanHitOwner = true;
+        
+        // hides the weapon
+        this.Weapon.Image = null;
+        this.Weapon.Color = Color.Transparent;
+        
         this.Add(Weapon);
     }
 
-    public void ThrowProjectile(PhysicsGame game, Vector direction)
+    public void ThrowProjectile(PhysicsGame game, Vector direction, string tag)
     {
         PhysicsObject projectile = this.Weapon.Shoot();
         if (projectile != null)
         {
             projectile.Size = new Vector(10, 10);
             projectile.Image = projectileImage;
-            
+            projectile.Tag = tag;
         }
     }
     public void ChangeLifeCounterValue(int change)
