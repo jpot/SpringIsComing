@@ -28,7 +28,7 @@ public class SpringIsComing : PhysicsGame
 
         Camera.Follow(player1, player2);
         Camera.ZoomFactor = 1.2;
-        Camera.StayInLevel = true;
+        //Camera.StayInLevel = true;
 
         Gravity = new Vector(0, -1000);
     }
@@ -93,16 +93,20 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Exit");
 
         Keyboard.Listen(Key.Left, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
-        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player2, movementSpeed);
+        Keyboard.Listen(Key.Right, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
+
+        Keyboard.Listen(Key.A, ButtonState.Down, Move, "Player 2: Move left", player2, -movementSpeed);
+        Keyboard.Listen(Key.D, ButtonState.Down, Move, "Player 2: Move right", player2, movementSpeed);
+
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
-        ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
+        /*ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
 
         ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Move, "Player 1: Move left", player1, -movementSpeed);
-        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 1: Move right", player2, movementSpeed);
+        ControllerOne.Listen(Button.DPadRight, ButtonState.Down, Move, "Player 1: Move right", player1, movementSpeed);
         //ControllerOne.Listen(Button.A, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
-
-        PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
+        
+        PhoneBackButton.Listen(ConfirmExit, "Lopeta peli"); */
     }
 
     void Move(PlatformCharacter character, double speed)
