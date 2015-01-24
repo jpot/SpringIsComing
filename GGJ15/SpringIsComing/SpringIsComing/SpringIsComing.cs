@@ -11,6 +11,7 @@ public class SpringIsComing : PhysicsGame
     const double movementSpeed = 200;
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
+    static Timer _timer;
 
     int levelNumber = 1;
 
@@ -60,6 +61,7 @@ public class SpringIsComing : PhysicsGame
         //Camera.StayInLevel = true;
 
         //Gravity = new Vector(0, -1000);
+        //TimerStart();
     }
 
     /// <summary>
@@ -136,7 +138,18 @@ public class SpringIsComing : PhysicsGame
         this.player2.Animation.FPS = 10;
         this.player2.Animation.Start();
     }
-
+    /*
+    void TimerStart()
+    {
+        _timer = new Timer();
+        _timer.Enabled = true;
+        _timer.Interval = 0.5;
+        _timer.Timeout += delegate { AnimationCheck(player1);
+                                     AnimationCheck(player2);
+                                   };
+        _timer.Start();
+    }
+    */
     Player AddPlayer(Vector position, double width, double height, Image playerImage)
     {
         Player newPlayer = new Player(width, height, snowballImage);
@@ -160,7 +173,7 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Right,  ButtonState.Down, Move, "Player 1: Move right", player1, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.Up,     ButtonState.Down, Move, "Player 1: Move up",    player1, new Vector(             0, movementSpeed ));
         Keyboard.Listen(Key.Down,   ButtonState.Down, Move, "Player 1: Move down",  player1, new Vector(             0, -movementSpeed));
-
+        
         Keyboard.Listen(Key.Left, ButtonState.Pressed, AnimationStart, "hio", player1);
         Keyboard.Listen(Key.Left, ButtonState.Released, AnimationStop, "hio", player1);
         Keyboard.Listen(Key.Right, ButtonState.Pressed, AnimationStart, "hio", player1);
@@ -169,7 +182,7 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Up, ButtonState.Released, AnimationStop, "hio", player1);
         Keyboard.Listen(Key.Down, ButtonState.Pressed, AnimationStart, "hio", player1);
         Keyboard.Listen(Key.Down, ButtonState.Released, AnimationStop, "hio", player1);
-
+        
         Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
 
         Keyboard.Listen(Key.A,      ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
@@ -194,6 +207,19 @@ public class SpringIsComing : PhysicsGame
     {
         character.Push(direction);
         //character.Position += direction;
+    }
+
+    void AnimationCheck(PhysicsObject character)
+    {
+        Vector temp = character.Velocity.Normalize();
+        if (Math.Abs(temp.Y) > 0 || Math.Abs(temp.X) > 0)
+        {
+            character.Animation.Start();
+        }
+        else
+        {
+            character.Animation.Stop();
+        }
     }
     
     void AnimationStart(PhysicsObject character)
