@@ -26,6 +26,7 @@ public class SpringIsComing : PhysicsGame
                                  "BigLumiukkoJump5",
                                  "BigLumiukkoJump6",
                                  "BigLumiukkoJump7");
+    Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
@@ -91,11 +92,17 @@ public class SpringIsComing : PhysicsGame
     void AddPlayer1(Vector position, double width, double height)
     {
         this.player1 = AddPlayer(position, width, height*2, playerImage);
+        this.player1.Animation = new Animation(snowMan);
+        this.player1.Animation.FPS = 10;
+        this.player1.Animation.Start();
     }
 
     void AddPlayer2(Vector position, double width, double height)
     {
         this.player2 = AddPlayer(position, width, height*2.5, player2Image);
+        this.player2.Animation = new Animation(snowMan2);
+        this.player2.Animation.FPS = 10;
+        this.player2.Animation.Start();
     }
 
     Player AddPlayer(Vector position, double width, double height, Image playerImage)
@@ -108,9 +115,6 @@ public class SpringIsComing : PhysicsGame
         newPlayer.CanRotate = false;
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
-        newPlayer.Animation = new Animation(snowMan);
-        newPlayer.Animation.FPS = 10;
-        newPlayer.Animation.Start();
         Add(newPlayer);
         return newPlayer;
     }
