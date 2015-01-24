@@ -19,6 +19,7 @@ public class SpringIsComing : PhysicsGame
     int maximumLifeForPlayer2 = 100;
 
     int snowballThrowCost = 10;
+    int snowHealAmount = 10;
 
     Player player1, player2;
 
@@ -179,8 +180,9 @@ public class SpringIsComing : PhysicsGame
         newPlayer.Image = playerImage;
         newPlayer.LinearDamping = 0.95;
         newPlayer.CanRotate = false;
-        AddCollisionHandler(newPlayer, "star", HitStar);
+        //AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
+        AddCollisionHandler(newPlayer, "star", HitSnow);
         Add(newPlayer);
         return newPlayer;
     }
@@ -273,6 +275,16 @@ public class SpringIsComing : PhysicsGame
     void HitCampfire(PhysicsObject collider, PhysicsObject target)
     {
         MessageDisplay.Add("Ouch!");
+    }
+
+    void HitSnow(PhysicsObject collider, PhysicsObject target)
+    {
+        if (((Player)collider).LifeCounter.Value < ((Player)collider).LifeCounter.MaxValue)
+        {
+            ((Player)collider).LifeCounter.Value += snowHealAmount;
+            MessageDisplay.Add("Gained life!");
+            target.Destroy();
+        }
     }
 
     void ThrowSnowball(Player character)
