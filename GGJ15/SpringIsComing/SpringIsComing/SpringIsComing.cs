@@ -62,7 +62,7 @@ public class SpringIsComing : PhysicsGame
         Level.Background.CreateGradient(Color.White, Color.SkyBlue);
     }
 
-    void AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse)
+    PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
         int layerNumber = 0;
         PhysicsObject newTile = PhysicsObject.CreateStaticObject(width, height);
@@ -76,39 +76,32 @@ public class SpringIsComing : PhysicsGame
         newTile.Position = position;
         newTile.Color = Color.Gray;
         newTile.Image = image;
+        newTile.Tag = tag;
         Add(newTile, layerNumber);
+        return newTile;
     }
 
     void AddWall(Vector position, double width, double height)
     {
-        AddTile(position, width, height, wallImage, false);
+        AddTile(position, width, height, wallImage, false, "wall");
     }
 
     void AddFlower(Vector position, double width, double height)
     {
-        AddTile(position, width, height, flowerImage, true);
+        AddTile(position, width, height, flowerImage, true, "flower");
     }
 
     void AddStar(Vector position, double width, double height)
     {
-        PhysicsObject star = PhysicsObject.CreateStaticObject(width, height);
-        star.IgnoresCollisionResponse = true;
-        star.Position = position;
-        star.Image = starImage;
-        star.Tag = "star";
-        Add(star);
+        AddTile(position, width, height, starImage, true, "star");
     }
     
     void AddCampfire(Vector position, double width, double height)
     {
-        PhysicsObject campfire = PhysicsObject.CreateStaticObject(width, height);
-        //campfire.IgnoresCollisionResponse = true;
-        campfire.Position = position;
-        campfire.Tag = "campfire";
+        PhysicsObject campfire = AddTile(position, width, height, null, false, "campfire");
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;
         campfire.Animation.Start();
-        Add(campfire);
     }
 
     void AddPlayer1(Vector position, double width, double height)
