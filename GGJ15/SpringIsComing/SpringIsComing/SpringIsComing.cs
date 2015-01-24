@@ -21,6 +21,10 @@ public class SpringIsComing : PhysicsGame
     Image starImage = LoadImage("tahti");
     Image flowerImage = LoadImage("kukka1");
     Image snowballImage = LoadImage("lumipallo");
+    Image grill1Image = LoadImage("Grilli1");
+    Image grill2Image = LoadImage("Grilli2");
+    Image hehkukiviImage = LoadImage("hehkukivi2");
+    Image hehkuvatkivetImage = LoadImage("hehkuvatkivet");
     Image[] campFire = LoadImages("nuotio", "nuotio2", "nuotio", "nuotio3");
     Image[] snowMan = LoadImages("BigLumiukkoJump8",
                                  "BigLumiukkoJump1",
@@ -74,6 +78,7 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('f', AddCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
+        level.SetTileMethod('s', AddFieryStone);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -96,6 +101,11 @@ public class SpringIsComing : PhysicsGame
         newTile.Tag = tag;
         Add(newTile, layerNumber);
         return newTile;
+    }
+
+    void AddFieryStone(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, hehkuvatkivetImage, false, "hehkuvatkivet");
     }
 
     void AddWall(Vector position, double width, double height)
