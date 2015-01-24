@@ -86,7 +86,8 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('f', AddCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
-        level.SetTileMethod('s', AddFieryStone);
+        level.SetTileMethod('S', AddFieryStone);
+        level.SetTileMethod('s', AddFieryStone2);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -109,6 +110,11 @@ public class SpringIsComing : PhysicsGame
         newTile.Tag = tag;
         Add(newTile, layerNumber);
         return newTile;
+    }
+
+    void AddFieryStone2(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, hehkukiviImage, false, "hehkuvatkivet2");
     }
 
     void AddFieryStone(Vector position, double width, double height)
@@ -207,12 +213,12 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Down, ButtonState.Released, AnimationStop, "hio", player1);
         
         Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
-        /*
+        
         Keyboard.Listen(Key.A,      ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.W,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0,  movementSpeed));
         Keyboard.Listen(Key.S,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, -movementSpeed));
-        */
+        
 
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
