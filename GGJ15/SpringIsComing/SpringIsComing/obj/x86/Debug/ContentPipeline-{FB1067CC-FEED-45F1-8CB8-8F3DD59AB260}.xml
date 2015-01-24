@@ -35,7 +35,16 @@
       <Processor>TextFileContentProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\kentta1.xnb</Output>
-      <Time>2015-01-24T11:40:11.6127091+02:00</Time>
+      <Time>2015-01-24T12:00:43.0606075+02:00</Time>
+    </Item>
+    <Item>
+      <Source>nuotio.png</Source>
+      <Name>nuotio</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\nuotio.xnb</Output>
+      <Time>2015-01-24T11:47:37.0381463+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

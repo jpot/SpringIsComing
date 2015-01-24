@@ -16,6 +16,7 @@ public class SpringIsComing : PhysicsGame
 
     Image playerImage = LoadImage("norsu");
     Image starImage = LoadImage("tahti");
+    Image campfireImage = LoadImage("nuotio");
 
     SoundEffect goalSound = LoadSoundEffect("maali");
 
@@ -41,6 +42,7 @@ public class SpringIsComing : PhysicsGame
         TileMap level = TileMap.FromLevelAsset(levelFile);
         level.SetTileMethod('#', AddPlatform);
         level.SetTileMethod('*', AddStar);
+        level.SetTileMethod('f', AddCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
         level.Execute(TILE_SIZE, TILE_SIZE);
@@ -65,6 +67,16 @@ public class SpringIsComing : PhysicsGame
         star.Tag = "star";
         Add(star);
     }
+    
+    void AddCampfire(Vector position, double width, double height)
+    {
+        PhysicsObject campfire = PhysicsObject.CreateStaticObject(width, height);
+        campfire.IgnoresCollisionResponse = true;
+        campfire.Position = position;
+        campfire.Image = campfireImage;
+        campfire.Tag = "campfire";
+        Add(campfire);
+    }
 
     void AddPlayer1(Vector position, double width, double height)
     {
@@ -83,6 +95,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.Mass = 4.0;
         newPlayer.Image = playerImage;
         AddCollisionHandler(newPlayer, "star", HitStar);
+        AddCollisionHandler(newPlayer, "campfire", HitCampfire);
         Add(newPlayer);
         return newPlayer;
     }
@@ -124,5 +137,10 @@ public class SpringIsComing : PhysicsGame
         goalSound.Play();
         MessageDisplay.Add("You have collected a star!");
         speed.Destroy();
+    }
+
+    void HitCampfire(PhysicsObject collider, PhysicsObject target)
+    {
+        MessageDisplay.Add("Ouch!");
     }
 }
