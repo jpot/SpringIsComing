@@ -190,7 +190,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.CanRotate = false;
         //AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
-        AddCollisionHandler(newPlayer, "star", HitSnow);
+        AddCollisionHandler(newPlayer, "snow", HitSnow);
         Add(newPlayer);
         return newPlayer;
     }
@@ -315,7 +315,7 @@ public class SpringIsComing : PhysicsGame
         // You may not throw snowballs if it would kill you
         if (character.LifeCounter > snowballThrowCost)
         {
-            character.ThrowProjectile(this, new Vector(0, -1));
+            character.ThrowProjectile(this, new Vector(0, -1), "snow");
             character.LifeCounter.Value -= snowballThrowCost;
             character.Width = character.LifeCounter.Value;
             character.Height = character.LifeCounter.Value;
