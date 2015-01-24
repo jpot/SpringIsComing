@@ -25,8 +25,7 @@ public class SpringIsComing : PhysicsGame
                                  "BigLumiukkoJump4",
                                  "BigLumiukkoJump5",
                                  "BigLumiukkoJump6",
-                                 "BigLumiukkoJump7",
-                                 "BigLumiukkoJump8");
+                                 "BigLumiukkoJump7");
     SoundEffect goalSound = LoadSoundEffect("maali");
 
     public override void Begin()
@@ -109,6 +108,9 @@ public class SpringIsComing : PhysicsGame
         newPlayer.CanRotate = false;
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
+        newPlayer.Animation = new Animation(snowMan);
+        newPlayer.Animation.FPS = 10;
+        newPlayer.Animation.Start();
         Add(newPlayer);
         return newPlayer;
     }
