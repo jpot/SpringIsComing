@@ -46,6 +46,33 @@
       <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\nuotio.xnb</Output>
       <Time>2015-01-24T11:47:37.0381463+02:00</Time>
     </Item>
+    <Item>
+      <Source>kukka1.png</Source>
+      <Name>kukka1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\kukka1.xnb</Output>
+      <Time>2015-01-24T12:47:59.1147943+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Lumiukko.png</Source>
+      <Name>Lumiukko</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\Lumiukko.xnb</Output>
+      <Time>2015-01-24T12:55:05.0599446+02:00</Time>
+    </Item>
+    <Item>
+      <Source>LumiukkoPlaceholderd.png</Source>
+      <Name>LumiukkoPlaceholderd</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cornix\Documents\Visual Studio 2013\Projects\SpringIsComing\GGJ15\SpringIsComing\SpringIsComing\bin\x86\Debug\Content\LumiukkoPlaceholderd.xnb</Output>
+      <Time>2015-01-24T12:59:46.039926+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{FB1067CC-FEED-45F1-8CB8-8F3DD59AB260}</ContentProjectGUID>

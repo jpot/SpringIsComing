@@ -14,7 +14,8 @@ public class SpringIsComing : PhysicsGame
 
     PhysicsObject player1, player2;
 
-    Image playerImage = LoadImage("norsu");
+    Image playerImage = LoadImage("Lumiukko");
+    Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
     Image campfireImage = LoadImage("nuotio");
 
@@ -80,12 +81,12 @@ public class SpringIsComing : PhysicsGame
 
     void AddPlayer1(Vector position, double width, double height)
     {
-        this.player1 = AddPlayer(position, width, height, playerImage);
+        this.player1 = AddPlayer(position, width, height*2, playerImage);
     }
 
     void AddPlayer2(Vector position, double width, double height)
     {
-        this.player2 = AddPlayer(position, width, height, playerImage);
+        this.player2 = AddPlayer(position, width, height*2.5, player2Image);
     }
 
     PhysicsObject AddPlayer(Vector position, double width, double height, Image playerImage)
