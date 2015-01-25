@@ -29,7 +29,9 @@ public class SpringIsComing : PhysicsGame
 
 
     Vector menuPosition = Vector.Zero; // default position for menus
-
+    
+    bool mainMenuAlreadyVisible = false;
+    
     Player player1, player2;
 
     Image titleBackgroundImage = LoadImage("titlescreen");
@@ -78,6 +80,7 @@ public class SpringIsComing : PhysicsGame
         this.menuPosition = new Vector(0, -Screen.Height / 8);
         if (skipMadeWithJypeliScreen)
         {
+            mainMenuAlreadyVisible = true;
             StartMenu();
         }
         else
@@ -136,7 +139,11 @@ public class SpringIsComing : PhysicsGame
 
     void SloganHitsTop(PhysicsObject slogan, PhysicsObject top)
     {
-        Timer.SingleShot(3.2, StartMenu);
+        if (!mainMenuAlreadyVisible)
+        {
+            mainMenuAlreadyVisible = true;
+            Timer.SingleShot(3.2, StartMenu);
+        }
     }
 
     /// <summary>
