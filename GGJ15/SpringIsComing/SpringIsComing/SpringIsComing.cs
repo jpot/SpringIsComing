@@ -323,6 +323,8 @@ public class SpringIsComing : PhysicsGame
     void AddWaterContainer(Vector position, double width, double height)
     {
         PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
+        watercontainer.Mass = 0.2; //globaaliksi muuttujaksi
+        watercontainer.IgnoresExplosions = true;
         AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
 
