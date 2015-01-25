@@ -51,6 +51,9 @@ public class SpringIsComing : PhysicsGame
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
+    Image[] death = LoadImages("BigLumiukkoJump7",
+                               "BigLumiukkoJump8",
+                               "BigLumiukkoJump6");
     // TODO load and use splash sound
     // TODO load and use snowball throwing sound
     // TODO draw, load and use melting/dying animation for both players
@@ -208,7 +211,24 @@ public class SpringIsComing : PhysicsGame
     {
         this.player1 = AddPlayer(position, width, height*2, playerImage, maximumLifeForPlayer1);
         this.player1.Animation = new Animation(snowMan);
+        
         this.player1.Animation.FPS = 10;
+        this.player1.Destroyed += delegate
+                                        {
+                                            this.player1.Animation.Stop();
+                                            this.player1.Animation = new Animation(death);
+                                            this.player1.Animation.Start(1);
+                                            Death(this.player1);
+                                            MessageDisplay.Add("It's over");
+                                        };
+        /*
+        if (this.player1.IsDestroyed)
+        {
+            this.player1.Animation = new Animation(death);
+            this.player1.Destroying += delegate { this.player1.Animation.Start(1); };
+            Death(this.player1);
+        }
+        */
         //this.player1.Animation.Start();
         // TODO fix hitbox to be smaller than the actual animation
     }
@@ -280,8 +300,8 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.W,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0,  movementSpeed));
         Keyboard.Listen(Key.S,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, -movementSpeed));
-        
 
+        Keyboard.Listen(Key.LeftControl, ButtonState.Pressed, ThrowSnowball, "Player 2: Throw snowball", player2);
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
@@ -395,6 +415,18 @@ public class SpringIsComing : PhysicsGame
 
         collider.Destroy();
         target.Destroy();
+    }
+
+    void Death(PhysicsObject collider)
+    {
+        Explosion splash = new Explosion(TILE_SIZE);
+        splash.Position = collider.Position;
+        Add(splash);
+        splash.Image = null;
+        splash.ShockwaveColor = Color.Blue;
+        splash.Sound = null; // TODO add soundeffect
+
+        collider.Destroy();
     }
 
     void HitGoal(PhysicsObject character, PhysicsObject goal)
