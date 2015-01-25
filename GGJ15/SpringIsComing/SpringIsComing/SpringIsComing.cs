@@ -304,7 +304,7 @@ public class SpringIsComing : PhysicsGame
 
     void AddPlayer2(Vector position, double width, double height)
     {
-        this.player2 = AddPlayer(position, width, height*2.5, player2Image, maximumLifeForPlayer2);
+        this.player2 = AddPlayer(position, width, height*2, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
         //this.player2.Animation.Start();
