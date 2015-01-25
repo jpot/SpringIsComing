@@ -24,13 +24,14 @@ public class SpringIsComing : PhysicsGame
     int smallDamage = 2;
     int greatDamage = 5;
 
-    Vector menuPosition = Vector.Zero;
+    Vector menuPosition = Vector.Zero; // default position for menus
 
     Player player1, player2;
 
     // TODO add snow pile image
     // TODO add yellow flower image
     Image titleBackgroundImage = LoadImage("titlescreen");
+    Image jypeliImage = LoadImage("madewithjypeli");
     Image waterbucketImage = LoadImage("vesisanko");
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
@@ -64,8 +65,34 @@ public class SpringIsComing : PhysicsGame
 
         // Center position for menus:
         this.menuPosition = new Vector(0, -Screen.Height / 8);
-        
-        StartMenu();  
+        MadeWithJypeliScreen();
+        //StartMenu();  
+    }
+
+    void MadeWithJypeliScreen()
+    {
+        Level.Background.Color = Color.Black;
+        GameObject textObject = new GameObject(52.5, 25.1, Shape.Rectangle);
+        textObject.Position = Vector.Zero;
+        textObject.Color = Color.White;
+        textObject.Image = jypeliImage;
+        Add(textObject);
+        //Camera.ZoomTo(0 - Screen.Width / 5, 0 - Screen.Height / 4, 0 + Screen.Width / 5, 0 + Screen.Height / 4);
+        Timer zoomTimer = new Timer();
+        zoomTimer.Interval = 0.01;
+        zoomTimer.Timeout += delegate { 
+            textObject.Width *= 1.02;
+            textObject.Height *= 1.02;
+            // If zoomed big enough then stop zooming
+            if (textObject.Width > Screen.Width / 3 || textObject.Height > Screen.Height / 2.5)
+            {
+                zoomTimer.Stop();
+                // doesn't work for gameobjects with images :(
+                //textObject.FadeColorTo(Color.Black, 5.0);
+                Timer.SingleShot(1.8, StartMenu);
+            }
+        };
+        zoomTimer.Start();
     }
 
     /// <summary>
@@ -88,7 +115,7 @@ public class SpringIsComing : PhysicsGame
         startMenu.AddItemHandler(3, Exit);
         startMenu.DefaultCancel = -1;
         startMenu.Position = menuPosition;
-        Add(startMenu);
+        Timer.SingleShot(0.2, delegate { Add(startMenu); });
     }
 
     /// <summary>
@@ -113,6 +140,7 @@ public class SpringIsComing : PhysicsGame
     /// </summary>
     void Credits()
     {
+        ClearAll();
         GameObject creditsScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
         //creditsScreen.Image = creditsImage;
         creditsScreen.Color = Color.White;
