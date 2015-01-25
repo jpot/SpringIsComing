@@ -265,12 +265,12 @@ public class SpringIsComing : PhysicsGame
 
     void AddFieryStone2(Vector position, double width, double height)
     {
-        AddTile(position, width, height, hehkukiviImage, false, "hehkuvatkivet2");
+        AddTile(position, width, height, hehkukiviImage, true, "hehkuvatkivet2");
     }
 
     void AddFieryStone(Vector position, double width, double height)
     {
-        AddTile(position, width, height, hehkuvatkivetImage, false, "hehkuvatkivet");
+        AddTile(position, width, height, hehkuvatkivetImage, true, "hehkuvatkivet");
     }
 
     void AddWall(Vector position, double width, double height)
