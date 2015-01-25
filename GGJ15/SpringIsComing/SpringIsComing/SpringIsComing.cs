@@ -22,6 +22,7 @@ public class SpringIsComing : PhysicsGame
     int snowballThrowCost = 10;
     int snowHealAmount = 10;
     int smallDamage = 2;
+    int stoneDamage = 4;
     int greatDamage = 5;
 
 
@@ -265,12 +266,12 @@ public class SpringIsComing : PhysicsGame
 
     void AddFieryStone2(Vector position, double width, double height)
     {
-        AddTile(position, width, height, hehkukiviImage, true, "hehkuvatkivet2");
+        AddTile(position, width, height, hehkukiviImage, true, "coldstone");
     }
 
     void AddFieryStone(Vector position, double width, double height)
     {
-        AddTile(position, width, height, hehkuvatkivetImage, true, "hehkuvatkivet");
+        AddTile(position, width, height, hehkuvatkivetImage, true, "fierystone");
     }
 
     void AddWall(Vector position, double width, double height)
@@ -411,6 +412,7 @@ public class SpringIsComing : PhysicsGame
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
         AddCollisionHandler(newPlayer, "candle", HitCandle);
+        AddCollisionHandler(newPlayer, "fierystone", HitFieryStone);
         AddCollisionHandler(newPlayer, "snow", HitSnow);
         Add(newPlayer);
         return newPlayer;
@@ -533,6 +535,11 @@ public class SpringIsComing : PhysicsGame
         MessageDisplay.Add("Ouch!");
     }
 
+    void HitFieryStone(PhysicsObject collider, PhysicsObject target)
+    {
+        ((Player)collider).ChangeLifeCounterValue(-stoneDamage);
+        MessageDisplay.Add("Ow! Ow! Ow!");
+    }
 
     void HitSnow(PhysicsObject collider, PhysicsObject target)
     {
