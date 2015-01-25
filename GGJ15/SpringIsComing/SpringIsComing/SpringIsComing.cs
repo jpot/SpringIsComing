@@ -36,6 +36,7 @@ public class SpringIsComing : PhysicsGame
     Image titleBackgroundImage = LoadImage("titlescreen");
     Image jypeliImage = LoadImage("madewithjypeli");
     Image creditsImage = LoadImage("creditscreen");
+    Image sloganImage = LoadImage("freezeyourselves");
 
     Image snowpileImage = LoadImage("lumikasa");
     Image waterbucketImage = LoadImage("vesisanko");
@@ -105,10 +106,37 @@ public class SpringIsComing : PhysicsGame
                 zoomTimer.Stop();
                 // doesn't work for gameobjects with images :(
                 //textObject.FadeColorTo(Color.Black, 5.0);
-                Timer.SingleShot(1.8, StartMenu);
+                Timer.SingleShot(1.8, SloganScreen);
             }
         };
         zoomTimer.Start();
+    }
+
+    void SloganScreen()
+    {
+        ClearAll();
+
+        Level.Background.Color = Color.Black;
+       // 5.98/1.39
+       //      height
+
+        PhysicsObject textObject = new PhysicsObject(Screen.Width, Screen.Width * (1.39/5.98), Shape.Rectangle);
+        textObject.Position = new Vector(0, Screen.Bottom - textObject.Height/2.0);
+        textObject.Color = Color.White;
+        textObject.Image = sloganImage;
+        Add(textObject);
+        Gravity = new Vector(0, 200);
+        PhysicsObject borderTop = PhysicsObject.CreateStaticObject(Screen.Width, Screen.Height / 10, Shape.Rectangle);
+        borderTop.Position = new Vector(0, Screen.Top + borderTop.Height);
+        borderTop.Color = Color.Transparent;
+        borderTop.Tag = "top";
+        Add(borderTop);
+        AddCollisionHandler(textObject, "top", SloganHitsTop);
+    }
+
+    void SloganHitsTop(PhysicsObject slogan, PhysicsObject top)
+    {
+        Timer.SingleShot(3.2, StartMenu);
     }
 
     /// <summary>
@@ -123,7 +151,7 @@ public class SpringIsComing : PhysicsGame
         menuBackgroundScreen.Height = Screen.Height;
         Add(menuBackgroundScreen);
 
-        MultiSelectWindow startMenu = new MultiSelectWindow("Spring is coming",
+        MultiSelectWindow startMenu = new MultiSelectWindow("Main menu",
                                         "Start game", "Level selection", "Credits", "Exit");
         startMenu.AddItemHandler(0, LoadNextLevel);
         startMenu.AddItemHandler(1, LevelSelection);
