@@ -50,6 +50,9 @@ public class SpringIsComing : PhysicsGame
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
+    // TODO load and use splash sound
+    // TODO load and use snowball throwing sound
+    // TODO draw, load and use melting/dying animation for both players
 
     public override void Begin()
     {
@@ -125,6 +128,9 @@ public class SpringIsComing : PhysicsGame
     }
     // TODO add snow piles to levels
     // TODO change some campfires to candles
+    // TODO use more candles in levels
+    // TODO extuinqish candles with snow
+    // TODO switch some walls to stones/rocks
 
     PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
@@ -203,6 +209,7 @@ public class SpringIsComing : PhysicsGame
         this.player1.Animation = new Animation(snowMan);
         this.player1.Animation.FPS = 10;
         //this.player1.Animation.Start();
+        // TODO fix hitbox to be smaller than the actual animation
     }
 
     void AddPlayer2(Vector position, double width, double height)
