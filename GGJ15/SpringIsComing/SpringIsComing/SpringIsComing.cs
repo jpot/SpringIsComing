@@ -51,7 +51,7 @@ public class SpringIsComing : PhysicsGame
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
-    Image[] death = LoadImages("BigLumiukkoJump7",
+    Image[] deathp1 = LoadImages("BigLumiukkoJump7",
                                "BigLumiukkoJump8",
                                "BigLumiukkoJump6");
     // TODO load and use splash sound
@@ -283,21 +283,24 @@ public class SpringIsComing : PhysicsGame
         
         this.player1.Animation.FPS = 10;
         this.player1.Destroyed += delegate
-                                        {
-                                            this.player1.Animation.Stop();
-                                            this.player1.Animation = new Animation(death);
-                                            this.player1.Animation.Start(1);
-                                            Death(this.player1);
-                                            MessageDisplay.Add("It's over");
+                                        { 
+                                            PhysicsObject deathanim = new PhysicsObject(player1.Width, player1.Height);
+                                            deathanim.Shape = Shape.Rectangle;
+                                            Add(deathanim);
+                                            deathanim.X = player1.Position.X;
+                                            deathanim.Y = player1.Position.Y;
+                                            deathanim.Animation = new Animation(deathp1);
+                                            deathanim.Animation.FPS = 5;
+                                            deathanim.Animation.Start(1);
+                                            deathanim.Animation.StopOnLastFrame = true;
+                                            Timer.SingleShot(0.7, delegate
+                                                                        {
+                                                                            Death(deathanim);
+                                                                        }
+                                                            );
+                                            deathanim.Destroy();
+                                            MessageDisplay.Add("It's over...");
                                         };
-        /*
-        if (this.player1.IsDestroyed)
-        {
-            this.player1.Animation = new Animation(death);
-            this.player1.Destroying += delegate { this.player1.Animation.Start(1); };
-            Death(this.player1);
-        }
-        */
         //this.player1.Animation.Start();
         // TODO fix hitbox to be smaller than the actual animation
     }
@@ -307,6 +310,25 @@ public class SpringIsComing : PhysicsGame
         this.player2 = AddPlayer(position, width, height*2, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
+        this.player2.Destroyed += delegate
+                                    {
+                                        PhysicsObject deathanim = new PhysicsObject(player2.Width, player2.Height);
+                                        deathanim.Shape = Shape.Rectangle;
+                                        Add(deathanim);
+                                        deathanim.X = player2.Position.X;
+                                        deathanim.Y = player2.Position.Y;
+                                        deathanim.Animation = new Animation(deathp1);
+                                        deathanim.Animation.FPS = 5;
+                                        deathanim.Animation.Start(1);
+                                        deathanim.Animation.StopOnLastFrame = true;
+                                        Timer.SingleShot(0.7, delegate
+                                        {
+                                            Death(deathanim);
+                                        }
+                                                        );
+                                        deathanim.Destroy();
+                                        MessageDisplay.Add("It's over...");
+                                    };
         //this.player2.Animation.Start();
     }
 
