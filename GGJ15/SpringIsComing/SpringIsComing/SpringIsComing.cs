@@ -65,9 +65,14 @@ public class SpringIsComing : PhysicsGame
                                "BigLumiukkoJump8",
                                "BigLumiukkoJump6",
                                "Lumikasa");
+    Image[] deathp2 = LoadImages("Lumiukko",
+                               "LumiukkoSula1",
+                               "LumiukkoSula2");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
-    SoundEffect deathSound1 = LoadSoundEffect("sound_death1");
+    SoundEffect deathSound1 = LoadSoundEffect("soundDeath1");
+    SoundEffect attackSound1 = LoadSoundEffect("soundAttack1");
+
     //SoundEffect snowballSound1 = LoadSoundEffect("sound_snowballthrow1");
     // TODO load and use splash sound
 
@@ -397,7 +402,7 @@ public class SpringIsComing : PhysicsGame
                                             deathanim.Animation = new Animation(deathp1);
                                             deathanim.Animation.FPS = 5;
                                             deathanim.Animation.Start(1);
-                                            PlaySound("deathSound1");
+                                            deathSound1.Play();
                                             deathanim.Animation.StopOnLastFrame = true;
                                             Timer.SingleShot(1.0, delegate
                                                                         {
@@ -415,25 +420,35 @@ public class SpringIsComing : PhysicsGame
         this.player2 = AddPlayer(position, width, height*2, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
+        
         this.player2.Destroyed += delegate
-                                    {
-                                        PhysicsObject deathanim = new PhysicsObject(player2.Width, player2.Height);
-                                        deathanim.Shape = Shape.Rectangle;
-                                        Add(deathanim);
-                                        deathanim.X = player2.Position.X;
-                                        deathanim.Y = player2.Position.Y;
-                                        deathanim.Animation = new Animation(deathp1);
-                                        deathanim.Animation.FPS = 5;
-                                        deathanim.Animation.Start(1);
-                                        deathanim.Animation.StopOnLastFrame = true;
-                                        Timer.SingleShot(1.0, delegate
-                                                                {
-                                                                    Death(deathanim);
-                                                                    deathanim.Destroy();
-                                                                }
-                                                         );
-                                        MessageDisplay.Add("It's over...");
-                                    };
+                                            {
+                                                Death(this.player2);
+                                                deathSound1.Play();
+                                            };
+        /*
+        this.player2.Destroyed += delegate
+                                            {
+                                                PhysicsObject deathanim = new PhysicsObject(player2.Width, player2.Height);
+                                                deathanim.Shape = Shape.Rectangle;
+                                                Add(deathanim);
+                                                deathanim.X = player2.Position.X;
+                                                deathanim.Y = player2.Position.Y;
+                                                deathanim.Animation = new Animation(deathp2);
+                                                deathanim.Animation.FPS = 5;
+                                                deathanim.Animation.Start(1);
+                                                deathSound1.Play();
+                                                deathanim.Animation.StopOnLastFrame = true;
+                                                Timer.SingleShot(1.0, delegate
+                                                {
+                                                    Death(deathanim);
+                                                    deathanim.Destroy();
+                                                }
+                                                                );
+                                                MessageDisplay.Add("It's over...");
+                                            };
+
+         * */
         //this.player2.Animation.Start();
     }
 
@@ -462,6 +477,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.Position = position;
         newPlayer.Mass = 1.0;
         newPlayer.Image = playerImage;
+        newPlayer.Weapon.AttackSound = attackSound1;
         newPlayer.LinearDamping = 0.95;
         newPlayer.CanRotate = false;
         AddCollisionHandler(newPlayer, "star", HitStar);
@@ -616,8 +632,6 @@ public class SpringIsComing : PhysicsGame
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
-
-            //PlaySound("snowballSound1");
             
             // TODO destroy snowballs after time? Create piles when collides with wall?
             // TODO default to down when not moved yet
