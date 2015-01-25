@@ -15,7 +15,7 @@ public class SpringIsComing : PhysicsGame
 
     // TODO add restart level and back to level selection menus
     int levelNumber = 1;
-    bool skipMadeWithJypeliScreen = true;
+    bool skipMadeWithJypeliScreen = true; // TODO change this to false before release!
 
     int maximumLifeForPlayer1 = 100;
     int maximumLifeForPlayer2 = 100;
