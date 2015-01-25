@@ -25,6 +25,7 @@ public class SpringIsComing : PhysicsGame
     int smallDamage = 2;
     int stoneDamage = 6;
     int greatDamage = 5;
+    double watercontainerMass = 0.2;
 
 
     Vector menuPosition = Vector.Zero; // default position for menus
@@ -323,7 +324,7 @@ public class SpringIsComing : PhysicsGame
     void AddWaterContainer(Vector position, double width, double height)
     {
         PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
-        watercontainer.Mass = 0.2; //globaaliksi muuttujaksi
+        watercontainer.Mass = watercontainerMass;
         watercontainer.IgnoresExplosions = true;
         AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
