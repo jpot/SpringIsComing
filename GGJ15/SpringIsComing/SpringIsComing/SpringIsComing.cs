@@ -15,6 +15,7 @@ public class SpringIsComing : PhysicsGame
 
     // TODO add restart level and back to level selection menus
     int levelNumber = 1;
+    bool skipMadeWithJypeliScreen = true;
 
     int maximumLifeForPlayer1 = 100;
     int maximumLifeForPlayer2 = 100;
@@ -73,8 +74,14 @@ public class SpringIsComing : PhysicsGame
 
         // Center position for menus:
         this.menuPosition = new Vector(0, -Screen.Height / 8);
-        MadeWithJypeliScreen();
-        //StartMenu();  
+        if (skipMadeWithJypeliScreen)
+        {
+            StartMenu();
+        }
+        else
+        {
+            MadeWithJypeliScreen();
+        }
     }
 
     void MadeWithJypeliScreen()
