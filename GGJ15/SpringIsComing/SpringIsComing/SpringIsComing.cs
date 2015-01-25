@@ -31,8 +31,6 @@ public class SpringIsComing : PhysicsGame
 
     Player player1, player2;
 
-    // TODO add snow pile image
-    // TODO add yellow flower image
     Image titleBackgroundImage = LoadImage("titlescreen");
     Image jypeliImage = LoadImage("madewithjypeli");
     Image creditsImage = LoadImage("creditscreen");
@@ -67,7 +65,6 @@ public class SpringIsComing : PhysicsGame
                                "BigLumiukkoJump6");
     // TODO load and use splash sound
     // TODO load and use snowball throwing sound
-    // TODO draw, load and use melting/dying animation for both players
 
     public override void Begin()
     {
@@ -228,10 +225,6 @@ public class SpringIsComing : PhysicsGame
         Level.Background.CreateGradient(Color.White, Color.Green);
     }
     // TODO add snow piles to levels
-    // TODO change some campfires to candles
-    // TODO use more candles in levels
-    // TODO extuinqish candles with snow
-    // TODO switch some walls to stones/rocks
 
     PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
@@ -265,10 +258,10 @@ public class SpringIsComing : PhysicsGame
         return newPushableObject;
     }
 
-    ///TODO: tästä kerättävä objekti:
+    ///TODO tästä kerättävä objekti:
     void AddSnowpile(Vector position, double width, double height)
     {
-        AddTile(position, width, height, snowpileImage, false, "lumikasa");
+        AddTile(position, width, height, snowpileImage, false, "snow");
     }
 
     void AddFieryStone2(Vector position, double width, double height)
