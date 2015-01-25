@@ -95,13 +95,14 @@ public class SpringIsComing : PhysicsGame
     void LevelSelection()
     {
         MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
-                                                "Level 1", "Level 2", "Level 3", "Level 4", "Back");
+                                                "Level 1", "Level 2", "Level 3", "Level 4", "Challenge", "Back");
         levelSelectionMenu.AddItemHandler(0, delegate { this.levelNumber = 1; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(1, delegate { this.levelNumber = 2; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(2, delegate { this.levelNumber = 3; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(3, delegate { this.levelNumber = 4; LoadNextLevel(); });
-        levelSelectionMenu.AddItemHandler(4, StartMenu);
-        levelSelectionMenu.DefaultCancel = 4;
+        levelSelectionMenu.AddItemHandler(4, delegate { this.levelNumber = 5; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(5, StartMenu);
+        levelSelectionMenu.DefaultCancel = 5;
         Add(levelSelectionMenu);
     }
 
@@ -143,7 +144,8 @@ public class SpringIsComing : PhysicsGame
         else if (levelNumber == 2) LoadLevel("kentta2");
         else if (levelNumber == 3) LoadLevel("kentta3");
         else if (levelNumber == 4) LoadLevel("kentta4");
-        else if (levelNumber > 4) Exit();
+        else if (levelNumber == 5) LoadLevel("kentta5");
+        else if (levelNumber > 5) Exit();
 
         AddKeys();
 
