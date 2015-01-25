@@ -248,7 +248,7 @@ public class SpringIsComing : PhysicsGame
         else if (levelNumber == 3) LoadLevel("kentta3");
         else if (levelNumber == 4) LoadLevel("kentta4");
         else if (levelNumber == 5) LoadLevel("kentta5");
-        else if (levelNumber > 5) Exit();
+        else if (levelNumber > 5) Credits();
 
         AddKeys();
 
