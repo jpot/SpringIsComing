@@ -223,7 +223,7 @@ public class SpringIsComing : PhysicsGame
                                         "Resume", "Restart", "Exit to main menu");
         pauseMenu.AddItemHandler(0, this.Pause);
         pauseMenu.AddItemHandler(1, delegate { this.Pause(); ClearAll(); LoadNextLevel(); });
-        pauseMenu.AddItemHandler(2, delegate { ClearAll(); StartMenu(); } );
+        pauseMenu.AddItemHandler(2, delegate { this.Pause();  ClearAll(); StartMenu(); });
         pauseMenu.DefaultCancel = 0;
         pauseMenu.Position = menuPosition;
         Add(pauseMenu);
