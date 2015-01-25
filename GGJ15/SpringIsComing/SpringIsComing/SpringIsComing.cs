@@ -67,7 +67,7 @@ public class SpringIsComing : PhysicsGame
                                "Lumikasa");
     Image[] deathp2 = LoadImages("Lumiukko",
                                "LumiukkoSula1",
-                               "LumiukkoSula2");
+                               "LumiukkoSula23");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
     SoundEffect deathSound1 = LoadSoundEffect("soundDeath1");
@@ -420,13 +420,13 @@ public class SpringIsComing : PhysicsGame
         this.player2 = AddPlayer(position, width, height*2, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
-        
+        /*
         this.player2.Destroyed += delegate
                                             {
                                                 Death(this.player2);
                                                 deathSound1.Play();
                                             };
-        /*
+        */
         this.player2.Destroyed += delegate
                                             {
                                                 PhysicsObject deathanim = new PhysicsObject(player2.Width, player2.Height);
@@ -448,7 +448,7 @@ public class SpringIsComing : PhysicsGame
                                                 MessageDisplay.Add("It's over...");
                                             };
 
-         * */
+         
         //this.player2.Animation.Start();
     }
 
