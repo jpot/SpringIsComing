@@ -555,13 +555,10 @@ public class SpringIsComing : PhysicsGame
         // You may not throw snowballs if it would kill you
         if (character.LifeCounter > snowballThrowCost)
         {
-            character.ThrowProjectile(this, character.Velocity, "snow");
+            character.ThrowProjectile(this, character.Velocity, "snow"); // TODO default to down when not moved yet
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
-            
-            // TODO destroy snowballs after time? Create piles when collides with wall?
-            // TODO default to down when not moved yet
         }
     }
 
