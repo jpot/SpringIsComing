@@ -555,8 +555,9 @@ public class SpringIsComing : PhysicsGame
     void HitStar(PhysicsObject character, PhysicsObject speed)
     {
         goalSound.Play();
-        MessageDisplay.Add("You have collected a star!");
-        speed.Destroy();
+        HitGoal(character, speed);
+        // MessageDisplay.Add("You have collected a star!");
+        // speed.Destroy();
     }
 
     void HitCampfire(PhysicsObject collider, PhysicsObject target)
