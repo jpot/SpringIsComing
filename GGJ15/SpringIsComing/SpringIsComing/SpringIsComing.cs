@@ -47,6 +47,7 @@ public class SpringIsComing : PhysicsGame
                                  "BigLumiukkoJump4",
                                  "BigLumiukkoJump5",
                                  "BigLumiukkoJump6");
+    Image[] candleAnimation = LoadImages("kynttila", "kynttila2");
                                  
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
@@ -124,6 +125,7 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('S', AddFieryStone);
         level.SetTileMethod('s', AddFieryStone2);
         level.SetTileMethod('V', AddWaterContainer);
+        level.SetTileMethod('c', AddCandle);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -190,6 +192,14 @@ public class SpringIsComing : PhysicsGame
         AddTile(position, width, height, starImage, true, "star");
     }
     
+    void AddCandle(Vector position, double width, double height)
+    {
+        PhysicsObject candle = AddTile(position, width, height, null, false, "candle");
+        candle.Animation = new Animation(candleAnimation);
+        candle.Animation.FPS = 5;
+        candle.Animation.Start();
+    }
+
     void AddCampfire(Vector position, double width, double height)
     {
         PhysicsObject campfire = AddTile(position, width, height, null, false, "campfire");
