@@ -301,6 +301,7 @@ public class SpringIsComing : PhysicsGame
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;
         campfire.Animation.Start();
+        AddCollisionHandler(campfire, "snow", HitCampfireWithSnow);
     }
 
     void AddBigCampfire(Vector position, double width, double height)
@@ -553,6 +554,11 @@ public class SpringIsComing : PhysicsGame
     void HitCandleWithSnow(PhysicsObject candle, PhysicsObject snow)
     {
         Extinguish(snow, candle);
+    }
+
+    void HitCampfireWithSnow(PhysicsObject campfire, PhysicsObject snow)
+    {
+        snow.Destroy();
     }
 
     void Extinguish(PhysicsObject collider, PhysicsObject target)
