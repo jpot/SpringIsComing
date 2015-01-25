@@ -64,7 +64,6 @@ public class SpringIsComing : PhysicsGame
                                "BigLumiukkoJump8",
                                "BigLumiukkoJump6");
     // TODO load and use splash sound
-    // TODO load and use snowball throwing sound
 
     public override void Begin()
     {
@@ -145,6 +144,7 @@ public class SpringIsComing : PhysicsGame
         levelSelectionMenu.AddItemHandler(4, delegate { this.levelNumber = 5; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(5, StartMenu);
         levelSelectionMenu.DefaultCancel = 5;
+        levelSelectionMenu.Position = menuPosition;
         Add(levelSelectionMenu);
     }
 
@@ -176,6 +176,20 @@ public class SpringIsComing : PhysicsGame
         ControllerOne.Clear();
         StartMenu(); 
     }
+
+    void PauseMenu()
+    {
+        this.Pause();
+        MultiSelectWindow pauseMenu = new MultiSelectWindow("Menu",
+                                        "Resume", "Restart", "Exit to main menu");
+        pauseMenu.AddItemHandler(0, this.Pause);
+        pauseMenu.AddItemHandler(1, delegate { this.Pause(); ClearAll(); LoadNextLevel(); });
+        pauseMenu.AddItemHandler(2, delegate { ClearAll(); StartMenu(); } );
+        pauseMenu.DefaultCancel = 0;
+        pauseMenu.Position = menuPosition;
+        Add(pauseMenu);
+    }
+
 
     /// <summary>
     /// Clears the game and loads next level.
@@ -420,7 +434,7 @@ public class SpringIsComing : PhysicsGame
     void AddKeys()
     {
         Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Show help");
-        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Exit");
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, PauseMenu, "Menu");
 
         Keyboard.Listen(Key.Left,   ButtonState.Down, Move, "Player 1: Move left",  player1, new Vector(-movementSpeed, 0             ));
         Keyboard.Listen(Key.Right,  ButtonState.Down, Move, "Player 1: Move right", player1, new Vector( movementSpeed, 0             ));
@@ -456,7 +470,7 @@ public class SpringIsComing : PhysicsGame
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
-        ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Exit");
+        ControllerOne.Listen(Button.Back, ButtonState.Pressed, ConfirmExit, "Menu");
 
 
         ControllerOne.Listen(Button.DPadLeft,  ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
