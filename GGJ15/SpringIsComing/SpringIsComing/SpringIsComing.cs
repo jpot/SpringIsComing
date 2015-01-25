@@ -58,11 +58,14 @@ public class SpringIsComing : PhysicsGame
     Image[] candleAnimation = LoadImages("kynttila", "kynttila2");
                                  
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
-    Image wallImage = LoadImage("Seina");
-    SoundEffect goalSound = LoadSoundEffect("maali");
     Image[] deathp1 = LoadImages("BigLumiukkoJump7",
                                "BigLumiukkoJump8",
-                               "BigLumiukkoJump6");
+                               "BigLumiukkoJump6",
+                               "Lumikasa");
+    Image wallImage = LoadImage("Seina");
+    SoundEffect goalSound = LoadSoundEffect("maali");
+    SoundEffect deathSound1 = LoadSoundEffect("sound_death1");
+    SoundEffect snowballSound1 = LoadSoundEffect("sound_snowballthrow1");
     // TODO load and use splash sound
     // TODO load and use snowball throwing sound
 
@@ -342,6 +345,7 @@ public class SpringIsComing : PhysicsGame
                                             deathanim.Animation = new Animation(deathp1);
                                             deathanim.Animation.FPS = 5;
                                             deathanim.Animation.Start(1);
+                                            PlaySound("deathSound1");
                                             deathanim.Animation.StopOnLastFrame = true;
                                             Timer.SingleShot(1.0, delegate
                                                                         {
@@ -559,6 +563,8 @@ public class SpringIsComing : PhysicsGame
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
+
+            PlaySound("snowballSound1");
             
             // TODO destroy snowballs after time? Create piles when collides with wall?
             // TODO default to down when not moved yet
@@ -596,7 +602,7 @@ public class SpringIsComing : PhysicsGame
         splash.Image = null;
         splash.ShockwaveColor = Color.Blue;
         splash.Sound = null; // TODO add soundeffect
-
+        
         collider.Destroy();
     }
 
