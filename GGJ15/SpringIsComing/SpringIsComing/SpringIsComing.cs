@@ -252,6 +252,7 @@ public class SpringIsComing : PhysicsGame
 
         AddKeys();
 
+
         Camera.Follow(player1, player2);
         Camera.ZoomFactor = 1.2;
         //Camera.StayInLevel = true;
@@ -412,6 +413,7 @@ public class SpringIsComing : PhysicsGame
                                                                         }
                                                             );
                                             MessageDisplay.Add("It's over...");
+                                            //Camera.Follow(player2);
                                         };
         // TODO fix hitbox to be smaller than the actual animation
     }
@@ -447,6 +449,7 @@ public class SpringIsComing : PhysicsGame
                                                 }
                                                                 );
                                                 MessageDisplay.Add("It's over...");
+                                                //Camera.Follow(player1);
                                             };
 
          
