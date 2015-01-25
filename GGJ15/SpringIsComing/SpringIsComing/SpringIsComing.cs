@@ -26,9 +26,9 @@ public class SpringIsComing : PhysicsGame
 
     Player player1, player2;
 
-    // TODO add water image
     // TODO add snow pile image
     // TODO add yellow flower image
+    Image waterbucketImage = LoadImage("vesisanko");
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
@@ -242,8 +242,7 @@ public class SpringIsComing : PhysicsGame
 
     void AddWaterContainer(Vector position, double width, double height)
     {
-        // TODO switch null to water image
-        PhysicsObject watercontainer = AddPushableObject(position, width, height, null, "water");
+        PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
         AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
 
