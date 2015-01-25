@@ -8,7 +8,7 @@ using Jypeli.Widgets;
 
 public class SpringIsComing : PhysicsGame
 {
-    const double movementSpeed = 200;
+    const double movementSpeed = 300;
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
     static Timer timer;
@@ -23,16 +23,15 @@ public class SpringIsComing : PhysicsGame
     int snowballThrowCost = 10;
     int snowHealAmount = 10;
     int smallDamage = 2;
-    int stoneDamage = 4;
+    int stoneDamage = 6;
     int greatDamage = 5;
+    double watercontainerMass = 0.2;
 
 
     Vector menuPosition = Vector.Zero; // default position for menus
 
     Player player1, player2;
 
-    // TODO add snow pile image
-    // TODO add yellow flower image
     Image titleBackgroundImage = LoadImage("titlescreen");
     Image jypeliImage = LoadImage("madewithjypeli");
     Image creditsImage = LoadImage("creditscreen");
@@ -61,14 +60,16 @@ public class SpringIsComing : PhysicsGame
     Image[] candleAnimation = LoadImages("kynttila", "kynttila2");
                                  
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
-    Image wallImage = LoadImage("Seina");
-    SoundEffect goalSound = LoadSoundEffect("maali");
     Image[] deathp1 = LoadImages("BigLumiukkoJump7",
                                "BigLumiukkoJump8",
-                               "BigLumiukkoJump6");
+                               "BigLumiukkoJump6",
+                               "Lumikasa");
+    Image wallImage = LoadImage("Seina");
+    SoundEffect goalSound = LoadSoundEffect("maali");
+    SoundEffect deathSound1 = LoadSoundEffect("sound_death1");
+    //SoundEffect snowballSound1 = LoadSoundEffect("sound_snowballthrow1");
     // TODO load and use splash sound
     // TODO load and use snowball throwing sound
-    // TODO draw, load and use melting/dying animation for both players
 
     public override void Begin()
     {
@@ -256,10 +257,6 @@ public class SpringIsComing : PhysicsGame
         Level.Background.CreateGradient(Color.White, Color.Green);
     }
     // TODO add snow piles to levels
-    // TODO change some campfires to candles
-    // TODO use more candles in levels
-    // TODO extuinqish candles with snow
-    // TODO switch some walls to stones/rocks
 
     PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
@@ -293,10 +290,9 @@ public class SpringIsComing : PhysicsGame
         return newPushableObject;
     }
 
-    ///TODO: tästä kerättävä objekti:
     void AddSnowpile(Vector position, double width, double height)
     {
-        AddTile(position, width, height, snowpileImage, false, "lumikasa");
+        AddTile(position, width, height, snowpileImage, false, "snow");
     }
 
     void AddFieryStone2(Vector position, double width, double height)
@@ -359,6 +355,8 @@ public class SpringIsComing : PhysicsGame
     void AddWaterContainer(Vector position, double width, double height)
     {
         PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
+        watercontainer.Mass = watercontainerMass;
+        watercontainer.IgnoresExplosions = true;
         AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
 
@@ -378,6 +376,7 @@ public class SpringIsComing : PhysicsGame
                                             deathanim.Animation = new Animation(deathp1);
                                             deathanim.Animation.FPS = 5;
                                             deathanim.Animation.Start(1);
+                                            PlaySound("deathSound1");
                                             deathanim.Animation.StopOnLastFrame = true;
                                             Timer.SingleShot(1.0, delegate
                                                                         {
@@ -591,10 +590,12 @@ public class SpringIsComing : PhysicsGame
         // You may not throw snowballs if it would kill you
         if (character.LifeCounter > snowballThrowCost)
         {
-            character.ThrowProjectile(this, character.Velocity, "snow");
+            character.ThrowProjectile(this, character.Velocity, "snow"); // TODO default to down when not moved yet
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
+
+            //PlaySound("snowballSound1");
             
             // TODO destroy snowballs after time? Create piles when collides with wall?
             // TODO default to down when not moved yet
@@ -632,7 +633,7 @@ public class SpringIsComing : PhysicsGame
         splash.Image = null;
         splash.ShockwaveColor = Color.Blue;
         splash.Sound = null; // TODO add soundeffect
-
+        
         collider.Destroy();
     }
 
