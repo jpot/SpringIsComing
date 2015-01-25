@@ -8,7 +8,7 @@ using Jypeli.Widgets;
 
 public class SpringIsComing : PhysicsGame
 {
-    const double movementSpeed = 200;
+    const double movementSpeed = 300;
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
     static Timer timer;
@@ -25,6 +25,7 @@ public class SpringIsComing : PhysicsGame
     int smallDamage = 2;
     int stoneDamage = 6;
     int greatDamage = 5;
+    double watercontainerMass = 0.2;
 
 
     Vector menuPosition = Vector.Zero; // default position for menus
@@ -34,6 +35,7 @@ public class SpringIsComing : PhysicsGame
     Image titleBackgroundImage = LoadImage("titlescreen");
     Image jypeliImage = LoadImage("madewithjypeli");
     Image creditsImage = LoadImage("creditscreen");
+    Image sloganImage = LoadImage("freezeyourselves");
 
     Image snowpileImage = LoadImage("lumikasa");
     Image waterbucketImage = LoadImage("vesisanko");
@@ -58,11 +60,14 @@ public class SpringIsComing : PhysicsGame
     Image[] candleAnimation = LoadImages("kynttila", "kynttila2");
                                  
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
-    Image wallImage = LoadImage("Seina");
-    SoundEffect goalSound = LoadSoundEffect("maali");
     Image[] deathp1 = LoadImages("BigLumiukkoJump7",
                                "BigLumiukkoJump8",
-                               "BigLumiukkoJump6");
+                               "BigLumiukkoJump6",
+                               "Lumikasa");
+    Image wallImage = LoadImage("Seina");
+    SoundEffect goalSound = LoadSoundEffect("maali");
+    SoundEffect deathSound1 = LoadSoundEffect("sound_death1");
+    //SoundEffect snowballSound1 = LoadSoundEffect("sound_snowballthrow1");
     // TODO load and use splash sound
 
     public override void Begin()
@@ -101,10 +106,37 @@ public class SpringIsComing : PhysicsGame
                 zoomTimer.Stop();
                 // doesn't work for gameobjects with images :(
                 //textObject.FadeColorTo(Color.Black, 5.0);
-                Timer.SingleShot(1.8, StartMenu);
+                Timer.SingleShot(1.8, SloganScreen);
             }
         };
         zoomTimer.Start();
+    }
+
+    void SloganScreen()
+    {
+        ClearAll();
+
+        Level.Background.Color = Color.Black;
+       // 5.98/1.39
+       //      height
+
+        PhysicsObject textObject = new PhysicsObject(Screen.Width, Screen.Width * (1.39/5.98), Shape.Rectangle);
+        textObject.Position = new Vector(0, Screen.Bottom - textObject.Height/2.0);
+        textObject.Color = Color.White;
+        textObject.Image = sloganImage;
+        Add(textObject);
+        Gravity = new Vector(0, 200);
+        PhysicsObject borderTop = PhysicsObject.CreateStaticObject(Screen.Width, Screen.Height / 10, Shape.Rectangle);
+        borderTop.Position = new Vector(0, Screen.Top + borderTop.Height);
+        borderTop.Color = Color.Transparent;
+        borderTop.Tag = "top";
+        Add(borderTop);
+        AddCollisionHandler(textObject, "top", SloganHitsTop);
+    }
+
+    void SloganHitsTop(PhysicsObject slogan, PhysicsObject top)
+    {
+        Timer.SingleShot(3.2, StartMenu);
     }
 
     /// <summary>
@@ -119,7 +151,7 @@ public class SpringIsComing : PhysicsGame
         menuBackgroundScreen.Height = Screen.Height;
         Add(menuBackgroundScreen);
 
-        MultiSelectWindow startMenu = new MultiSelectWindow("Spring is coming",
+        MultiSelectWindow startMenu = new MultiSelectWindow("Main menu",
                                         "Start game", "Level selection", "Credits", "Exit");
         startMenu.AddItemHandler(0, LoadNextLevel);
         startMenu.AddItemHandler(1, LevelSelection);
@@ -337,6 +369,8 @@ public class SpringIsComing : PhysicsGame
     void AddWaterContainer(Vector position, double width, double height)
     {
         PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
+        watercontainer.Mass = watercontainerMass;
+        watercontainer.IgnoresExplosions = true;
         AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
 
@@ -356,6 +390,7 @@ public class SpringIsComing : PhysicsGame
                                             deathanim.Animation = new Animation(deathp1);
                                             deathanim.Animation.FPS = 5;
                                             deathanim.Animation.Start(1);
+                                            PlaySound("deathSound1");
                                             deathanim.Animation.StopOnLastFrame = true;
                                             Timer.SingleShot(1.0, delegate
                                                                         {
@@ -573,6 +608,11 @@ public class SpringIsComing : PhysicsGame
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
+
+            //PlaySound("snowballSound1");
+            
+            // TODO destroy snowballs after time? Create piles when collides with wall?
+            // TODO default to down when not moved yet
         }
     }
 
@@ -607,7 +647,7 @@ public class SpringIsComing : PhysicsGame
         splash.Image = null;
         splash.ShockwaveColor = Color.Blue;
         splash.Sound = null; // TODO add soundeffect
-
+        
         collider.Destroy();
     }
 
