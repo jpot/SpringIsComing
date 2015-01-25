@@ -251,6 +251,7 @@ public class SpringIsComing : PhysicsGame
         newPushableObject.CanRotate = false;
         newPushableObject.Image = image;
         newPushableObject.Tag = tag;
+        newPushableObject.LinearDamping = 0.95;
         Add(newPushableObject);
         return newPushableObject;
     }
@@ -545,7 +546,7 @@ public class SpringIsComing : PhysicsGame
             //character.Height = character.LifeCounter.Value;
             
             // TODO destroy snowballs after time? Create piles when collides with wall?
-            // TODO default to down
+            // TODO default to down when not moved yet
         }
     }
 
