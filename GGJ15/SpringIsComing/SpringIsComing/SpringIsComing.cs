@@ -51,7 +51,31 @@ public class SpringIsComing : PhysicsGame
     public override void Begin()
     {
         IsFullScreen = true;
-        LoadNextLevel();    
+        StartMenu();
+        //LoadNextLevel();    
+    }
+
+    void StartMenu()
+    {
+        MultiSelectWindow startMenu = new MultiSelectWindow("Spring is coming",
+                                        "Start game", "Level selection", "Exit");
+        startMenu.AddItemHandler(0, LoadNextLevel);
+        startMenu.AddItemHandler(1, LevelSelection);
+        startMenu.AddItemHandler(2, Exit);
+        Add(startMenu);
+    }
+
+    void LevelSelection()
+    {
+        MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
+                                                "Level 1", "Level 2", "Level 3", "Level 4", "Back");
+        levelSelectionMenu.AddItemHandler(0, delegate { this.levelNumber = 1; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(1, delegate { this.levelNumber = 2; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(2, delegate { this.levelNumber = 3; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(3, delegate { this.levelNumber = 4; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(4, StartMenu);
+        levelSelectionMenu.DefaultCancel = 4;
+        Add(levelSelectionMenu);
     }
 
     /// <summary>
