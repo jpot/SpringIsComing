@@ -29,6 +29,7 @@ public class SpringIsComing : PhysicsGame
 
     // TODO add water image
     // TODO add snow pile image
+    // TODO add yellow flower image
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
@@ -50,11 +51,38 @@ public class SpringIsComing : PhysicsGame
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
+    // TODO load and use splash sound
+    // TODO load and use snowball throwing sound
+    // TODO draw, load and use melting/dying animation for both players
 
     public override void Begin()
     {
         IsFullScreen = true;
-        LoadNextLevel();    
+        StartMenu();
+        //LoadNextLevel();    
+    }
+
+    void StartMenu()
+    {
+        MultiSelectWindow startMenu = new MultiSelectWindow("Spring is coming",
+                                        "Start game", "Level selection", "Exit");
+        startMenu.AddItemHandler(0, LoadNextLevel);
+        startMenu.AddItemHandler(1, LevelSelection);
+        startMenu.AddItemHandler(2, Exit);
+        Add(startMenu);
+    }
+
+    void LevelSelection()
+    {
+        MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
+                                                "Level 1", "Level 2", "Level 3", "Level 4", "Back");
+        levelSelectionMenu.AddItemHandler(0, delegate { this.levelNumber = 1; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(1, delegate { this.levelNumber = 2; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(2, delegate { this.levelNumber = 3; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(3, delegate { this.levelNumber = 4; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(4, StartMenu);
+        levelSelectionMenu.DefaultCancel = 4;
+        Add(levelSelectionMenu);
     }
 
     /// <summary>
@@ -101,6 +129,9 @@ public class SpringIsComing : PhysicsGame
     }
     // TODO add snow piles to levels
     // TODO change some campfires to candles
+    // TODO use more candles in levels
+    // TODO extuinqish candles with snow
+    // TODO switch some walls to stones/rocks
 
     PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
@@ -179,6 +210,7 @@ public class SpringIsComing : PhysicsGame
         this.player1.Animation = new Animation(snowMan);
         this.player1.Animation.FPS = 10;
         //this.player1.Animation.Start();
+        // TODO fix hitbox to be smaller than the actual animation
     }
 
     void AddPlayer2(Vector position, double width, double height)
