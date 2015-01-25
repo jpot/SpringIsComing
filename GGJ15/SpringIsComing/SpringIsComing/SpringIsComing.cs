@@ -13,7 +13,6 @@ public class SpringIsComing : PhysicsGame
     public static int TILE_SIZE = 40;
     static Timer timer;
 
-    // TODO add restart level and back to level selection menus
     int levelNumber = 1;
     bool skipMadeWithJypeliScreen = true; // TODO change this to false before release!
 
@@ -512,7 +511,7 @@ public class SpringIsComing : PhysicsGame
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
-        ControllerOne.Listen(Button.Back, ButtonState.Pressed, ConfirmExit, "Menu");
+        ControllerOne.Listen(Button.Back, ButtonState.Pressed, PauseMenu, "Menu");
 
 
         ControllerOne.Listen(Button.DPadLeft,  ButtonState.Down, Move, "Player 2: Move left",  player2, new Vector(-movementSpeed, 0             ));
