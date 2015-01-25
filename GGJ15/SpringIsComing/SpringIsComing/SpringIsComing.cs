@@ -339,6 +339,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.CanRotate = false;
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
+        AddCollisionHandler(newPlayer, "candle", HitCandle);
         AddCollisionHandler(newPlayer, "snow", HitSnow);
         Add(newPlayer);
         return newPlayer;
@@ -434,6 +435,10 @@ public class SpringIsComing : PhysicsGame
         HitGreatFire(collider, target);
     }
 
+    void HitCandle(PhysicsObject collider, PhysicsObject target)
+    {
+        HitSmallFire(collider, target);
+    }
 
     void HitGreatFire(PhysicsObject collider, PhysicsObject target)
     {
