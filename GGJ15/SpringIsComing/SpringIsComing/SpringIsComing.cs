@@ -248,7 +248,7 @@ public class SpringIsComing : PhysicsGame
     
     void AddCandle(Vector position, double width, double height)
     {
-        PhysicsObject candle = AddTile(position, width, height, null, false, "candle");
+        PhysicsObject candle = AddTile(position, width, height, null, true, "candle");
         candle.Animation = new Animation(candleAnimation);
         candle.Animation.FPS = 5;
         candle.Animation.Start();
