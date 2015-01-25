@@ -24,10 +24,13 @@ public class SpringIsComing : PhysicsGame
     int smallDamage = 2;
     int greatDamage = 5;
 
+    Vector menuPosition = Vector.Zero;
+
     Player player1, player2;
 
     // TODO add snow pile image
     // TODO add yellow flower image
+    Image titleBackgroundImage = LoadImage("titlescreen");
     Image waterbucketImage = LoadImage("vesisanko");
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
@@ -57,8 +60,11 @@ public class SpringIsComing : PhysicsGame
     public override void Begin()
     {
         IsFullScreen = true;
-        StartMenu();
-        //LoadNextLevel();    
+
+        // Center position for menus:
+        this.menuPosition = new Vector(0, -Screen.Height / 8);
+        
+        StartMenu();  
     }
 
     /// <summary>
@@ -67,8 +73,7 @@ public class SpringIsComing : PhysicsGame
     void StartMenu()
     {
         GameObject menuBackgroundScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
-        // FIXME Add menubackground image
-        //menuBackgroundScreen.Image = startMenuImage;
+        menuBackgroundScreen.Image = titleBackgroundImage;
         menuBackgroundScreen.Color = Color.Azure;
         menuBackgroundScreen.Width = Screen.Width;
         menuBackgroundScreen.Height = Screen.Height;
@@ -81,7 +86,7 @@ public class SpringIsComing : PhysicsGame
         startMenu.AddItemHandler(2, Credits);
         startMenu.AddItemHandler(3, Exit);
         startMenu.DefaultCancel = -1;
-        
+        startMenu.Position = menuPosition;
         Add(startMenu);
     }
 
@@ -98,6 +103,7 @@ public class SpringIsComing : PhysicsGame
         levelSelectionMenu.AddItemHandler(3, delegate { this.levelNumber = 4; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(4, StartMenu);
         levelSelectionMenu.DefaultCancel = 4;
+        levelSelectionMenu.Position = menuPosition;
         Add(levelSelectionMenu);
     }
 
@@ -108,12 +114,15 @@ public class SpringIsComing : PhysicsGame
     {
         GameObject creditsScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
         //creditsScreen.Image = creditsImage;
+        creditsScreen.Color = Color.White;
+        creditsScreen.Position = Vector.Zero;
+
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         Keyboard.Listen( Key.Enter, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         ControllerOne.Listen(Button.A, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         ControllerOne.Listen(Button.B, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
 
-        Add(creditsScreen);
+        Add(creditsScreen, 1);
     }
 
     /// <summary>
