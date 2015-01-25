@@ -35,7 +35,7 @@ public class SpringIsComing : PhysicsGame
     Image jypeliImage = LoadImage("madewithjypeli");
     Image creditsImage = LoadImage("creditscreen");
 
-    // TODO add snow pile image
+    Image snowpileImage = LoadImage("lumikasa");
     Image waterbucketImage = LoadImage("vesisanko");
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
@@ -214,6 +214,7 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('s', AddFieryStone2);
         level.SetTileMethod('V', AddWaterContainer);
         level.SetTileMethod('c', AddCandle);
+        level.SetTileMethod('L', AddSnowpile);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -254,6 +255,12 @@ public class SpringIsComing : PhysicsGame
         newPushableObject.LinearDamping = 0.95;
         Add(newPushableObject);
         return newPushableObject;
+    }
+
+    ///TODO: tästä kerättävä objekti:
+    void AddSnowpile(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, snowpileImage, false, "lumikasa");
     }
 
     void AddFieryStone2(Vector position, double width, double height)
