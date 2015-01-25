@@ -163,6 +163,7 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('v', AddFlower);
         level.SetTileMethod('k', AddFlower2);
         level.SetTileMethod('f', AddCampfire);
+        level.SetTileMethod('C', AddBigCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
         level.SetTileMethod('S', AddFieryStone);
@@ -254,6 +255,14 @@ public class SpringIsComing : PhysicsGame
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;
         campfire.Animation.Start();
+    }
+
+    void AddBigCampfire(Vector position, double width, double height)
+    {
+        PhysicsObject Bigcampfire = AddTile(position+new Vector(0.5*width,-0.5*height), width*2, height*2, null, false, "campfire");
+        Bigcampfire.Animation = new Animation(campFire);
+        Bigcampfire.Animation.FPS = 5;
+        Bigcampfire.Animation.Start();
     }
 
     void AddWaterContainer(Vector position, double width, double height)
