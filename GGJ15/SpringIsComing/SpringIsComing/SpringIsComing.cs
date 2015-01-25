@@ -8,7 +8,7 @@ using Jypeli.Widgets;
 
 public class SpringIsComing : PhysicsGame
 {
-    const double movementSpeed = 200;
+    const double movementSpeed = 300;
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
     static Timer timer;
