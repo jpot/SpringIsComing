@@ -252,6 +252,7 @@ public class SpringIsComing : PhysicsGame
         candle.Animation = new Animation(candleAnimation);
         candle.Animation.FPS = 5;
         candle.Animation.Start();
+        AddCollisionHandler(candle, "snow", HitCandleWithSnow);
     }
 
     void AddCampfire(Vector position, double width, double height)
@@ -475,7 +476,13 @@ public class SpringIsComing : PhysicsGame
             //character.Height = character.LifeCounter.Value;
             
             // TODO destroy snowballs after time? Create piles when collides with wall?
+            // TODO default to down
         }
+    }
+
+    void HitCandleWithSnow(PhysicsObject candle, PhysicsObject snow)
+    {
+        Extinguish(snow, candle);
     }
 
     void Extinguish(PhysicsObject collider, PhysicsObject target)
