@@ -306,10 +306,11 @@ public class SpringIsComing : PhysicsGame
 
     void AddBigCampfire(Vector position, double width, double height)
     {
-        PhysicsObject Bigcampfire = AddTile(position+new Vector(0.5*width,-0.5*height), width*2, height*2, null, false, "campfire");
-        Bigcampfire.Animation = new Animation(campFire);
-        Bigcampfire.Animation.FPS = 5;
-        Bigcampfire.Animation.Start();
+        PhysicsObject bigcampfire = AddTile(position+new Vector(0.5*width,-0.5*height), width*2, height*2, null, false, "campfire");
+        bigcampfire.Animation = new Animation(campFire);
+        bigcampfire.Animation.FPS = 5;
+        bigcampfire.Animation.Start();
+        AddCollisionHandler(bigcampfire, "snow", HitCampfireWithSnow);
     }
 
     void AddWaterContainer(Vector position, double width, double height)
