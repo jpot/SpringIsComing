@@ -95,13 +95,14 @@ public class SpringIsComing : PhysicsGame
     void LevelSelection()
     {
         MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
-                                                "Level 1", "Level 2", "Level 3", "Level 4", "Back");
+                                                "Level 1", "Level 2", "Level 3", "Level 4", "Challenge", "Back");
         levelSelectionMenu.AddItemHandler(0, delegate { this.levelNumber = 1; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(1, delegate { this.levelNumber = 2; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(2, delegate { this.levelNumber = 3; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(3, delegate { this.levelNumber = 4; LoadNextLevel(); });
-        levelSelectionMenu.AddItemHandler(4, StartMenu);
-        levelSelectionMenu.DefaultCancel = 4;
+        levelSelectionMenu.AddItemHandler(4, delegate { this.levelNumber = 5; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(5, StartMenu);
+        levelSelectionMenu.DefaultCancel = 5;
         Add(levelSelectionMenu);
     }
 
@@ -143,7 +144,8 @@ public class SpringIsComing : PhysicsGame
         else if (levelNumber == 2) LoadLevel("kentta2");
         else if (levelNumber == 3) LoadLevel("kentta3");
         else if (levelNumber == 4) LoadLevel("kentta4");
-        else if (levelNumber > 4) Exit();
+        else if (levelNumber == 5) LoadLevel("kentta5");
+        else if (levelNumber > 5) Exit();
 
         AddKeys();
 
@@ -246,7 +248,7 @@ public class SpringIsComing : PhysicsGame
     
     void AddCandle(Vector position, double width, double height)
     {
-        PhysicsObject candle = AddTile(position, width, height, null, false, "candle");
+        PhysicsObject candle = AddTile(position, width, height, null, true, "candle");
         candle.Animation = new Animation(candleAnimation);
         candle.Animation.FPS = 5;
         candle.Animation.Start();
@@ -305,7 +307,7 @@ public class SpringIsComing : PhysicsGame
 
     void AddPlayer2(Vector position, double width, double height)
     {
-        this.player2 = AddPlayer(position, width, height*2.5, player2Image, maximumLifeForPlayer2);
+        this.player2 = AddPlayer(position, width, height*2, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
         this.player2.Destroyed += delegate
@@ -359,6 +361,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.CanRotate = false;
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
+        AddCollisionHandler(newPlayer, "candle", HitCandle);
         AddCollisionHandler(newPlayer, "snow", HitSnow);
         Add(newPlayer);
         return newPlayer;
@@ -454,6 +457,10 @@ public class SpringIsComing : PhysicsGame
         HitGreatFire(collider, target);
     }
 
+    void HitCandle(PhysicsObject collider, PhysicsObject target)
+    {
+        HitSmallFire(collider, target);
+    }
 
     void HitGreatFire(PhysicsObject collider, PhysicsObject target)
     {
