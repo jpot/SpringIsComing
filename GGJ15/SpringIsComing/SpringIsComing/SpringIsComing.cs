@@ -13,7 +13,9 @@ public class SpringIsComing : PhysicsGame
     public static int TILE_SIZE = 40;
     static Timer timer;
 
-    int levelNumber = 4;
+    // TODO add level selection menu
+    // TODO add restart level and back to level selection menus
+    int levelNumber = 1;
 
     int maximumLifeForPlayer1 = 100;
     int maximumLifeForPlayer2 = 100;
@@ -26,6 +28,7 @@ public class SpringIsComing : PhysicsGame
     Player player1, player2;
 
     // TODO add water image
+    // TODO add snow pile image
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
@@ -120,6 +123,8 @@ public class SpringIsComing : PhysicsGame
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
     }
+    // TODO add snow piles to levels
+    // TODO change some campfires to candles
 
     PhysicsObject AddTile(Vector position, double width, double height, Image image, bool ignoresCollisionResponse, String tag)
     {
@@ -228,7 +233,7 @@ public class SpringIsComing : PhysicsGame
         Player newPlayer = new Player(width, height, this, snowballImage);
         newPlayer.LifeCounter.MaxValue = life;
         newPlayer.LifeCounter.Value = newPlayer.LifeCounter.MaxValue;
-        newPlayer.Scale(); // TODO make this happen automatically if value or maxvalue is changed (add .ChangeMaxValue for class Player)
+        newPlayer.Scale(); // TODO make this happen automatically the first time
 
         newPlayer.Position = position;
         newPlayer.Mass = 1.0;
@@ -366,7 +371,8 @@ public class SpringIsComing : PhysicsGame
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
-            // TODO: destroy snowballs after time?
+            
+            // TODO destroy snowballs after time? Create piles when collides with wall?
         }
     }
 
