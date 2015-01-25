@@ -69,6 +69,7 @@ public class SpringIsComing : PhysicsGame
         startMenu.AddItemHandler(0, LoadNextLevel);
         startMenu.AddItemHandler(1, LevelSelection);
         startMenu.AddItemHandler(2, Exit);
+        startMenu.DefaultCancel = 2;
         Add(startMenu);
     }
 
