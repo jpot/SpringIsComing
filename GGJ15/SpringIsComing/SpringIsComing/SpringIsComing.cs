@@ -14,7 +14,7 @@ public class SpringIsComing : PhysicsGame
     static Timer timer;
 
     int levelNumber = 1;
-    bool skipMadeWithJypeliScreen = true; // TODO change this to false before release!
+    bool skipMadeWithJypeliScreen = false; // TODO change this to false before release!
 
     int maximumLifeForPlayer1 = 100;
     int maximumLifeForPlayer2 = 100;
