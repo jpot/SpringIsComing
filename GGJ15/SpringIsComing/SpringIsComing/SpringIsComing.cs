@@ -29,6 +29,7 @@ public class SpringIsComing : PhysicsGame
 
     // TODO add water image
     // TODO add snow pile image
+    // TODO add yellow flower image
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
