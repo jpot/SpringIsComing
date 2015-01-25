@@ -8,7 +8,7 @@ using Jypeli.Widgets;
 
 public class SpringIsComing : PhysicsGame
 {
-    const double movementSpeed = 200;
+    const double movementSpeed = 300;
     const double jumpSpeed = 750;
     public static int TILE_SIZE = 40;
     static Timer timer;
@@ -23,8 +23,9 @@ public class SpringIsComing : PhysicsGame
     int snowballThrowCost = 10;
     int snowHealAmount = 10;
     int smallDamage = 2;
-    int stoneDamage = 4;
+    int stoneDamage = 6;
     int greatDamage = 5;
+    double watercontainerMass = 0.2;
 
 
     Vector menuPosition = Vector.Zero; // default position for menus
@@ -65,7 +66,7 @@ public class SpringIsComing : PhysicsGame
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
     SoundEffect deathSound1 = LoadSoundEffect("sound_death1");
-    SoundEffect snowballSound1 = LoadSoundEffect("sound_snowballthrow1");
+    //SoundEffect snowballSound1 = LoadSoundEffect("sound_snowballthrow1");
     // TODO load and use splash sound
     // TODO load and use snowball throwing sound
 
@@ -326,6 +327,8 @@ public class SpringIsComing : PhysicsGame
     void AddWaterContainer(Vector position, double width, double height)
     {
         PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
+        watercontainer.Mass = watercontainerMass;
+        watercontainer.IgnoresExplosions = true;
         AddCollisionHandler(watercontainer, "campfire", Extinguish);
     }
 
@@ -559,12 +562,12 @@ public class SpringIsComing : PhysicsGame
         // You may not throw snowballs if it would kill you
         if (character.LifeCounter > snowballThrowCost)
         {
-            character.ThrowProjectile(this, character.Velocity, "snow");
+            character.ThrowProjectile(this, character.Velocity, "snow"); // TODO default to down when not moved yet
             character.ChangeLifeCounterValue(-snowballThrowCost);
             //character.Width = character.LifeCounter.Value;
             //character.Height = character.LifeCounter.Value;
 
-            PlaySound("snowballSound1");
+            //PlaySound("snowballSound1");
             
             // TODO destroy snowballs after time? Create piles when collides with wall?
             // TODO default to down when not moved yet
