@@ -13,7 +13,6 @@ public class SpringIsComing : PhysicsGame
     public static int TILE_SIZE = 40;
     static Timer timer;
 
-    // TODO add level selection menu
     // TODO add restart level and back to level selection menus
     int levelNumber = 1;
 
@@ -62,17 +61,33 @@ public class SpringIsComing : PhysicsGame
         //LoadNextLevel();    
     }
 
+    /// <summary>
+    /// Shows start menu with background image
+    /// </summary>
     void StartMenu()
     {
+        GameObject menuBackgroundScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
+        // FIXME Add menubackground image
+        //menuBackgroundScreen.Image = startMenuImage;
+        menuBackgroundScreen.Color = Color.Azure;
+        menuBackgroundScreen.Width = Screen.Width;
+        menuBackgroundScreen.Height = Screen.Height;
+        Add(menuBackgroundScreen);
+
         MultiSelectWindow startMenu = new MultiSelectWindow("Spring is coming",
-                                        "Start game", "Level selection", "Exit");
+                                        "Start game", "Level selection", "Credits", "Exit");
         startMenu.AddItemHandler(0, LoadNextLevel);
         startMenu.AddItemHandler(1, LevelSelection);
-        startMenu.AddItemHandler(2, Exit);
-        startMenu.DefaultCancel = 2;
+        startMenu.AddItemHandler(2, Credits);
+        startMenu.AddItemHandler(3, Exit);
+        startMenu.DefaultCancel = -1;
+        
         Add(startMenu);
     }
 
+    /// <summary>
+    /// Shows level selection menu
+    /// </summary>
     void LevelSelection()
     {
         MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
@@ -84,6 +99,33 @@ public class SpringIsComing : PhysicsGame
         levelSelectionMenu.AddItemHandler(4, StartMenu);
         levelSelectionMenu.DefaultCancel = 4;
         Add(levelSelectionMenu);
+    }
+
+    /// <summary>
+    /// Shows credits
+    /// </summary>
+    void Credits()
+    {
+        GameObject creditsScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
+        //creditsScreen.Image = creditsImage;
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+        Keyboard.Listen( Key.Enter, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+        ControllerOne.Listen(Button.A, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+        ControllerOne.Listen(Button.B, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+
+        Add(creditsScreen);
+    }
+
+    /// <summary>
+    /// Clears credits screen and goes back to start menu.
+    /// </summary>
+    /// <param name="creditsScreenToBeCleared">background image to destroy before going back to start menu</param>
+    void ClearCredits(GameObject creditsScreenToBeCleared)
+    {
+        creditsScreenToBeCleared.Destroy();
+        Keyboard.Clear();
+        ControllerOne.Clear();
+        StartMenu(); 
     }
 
     /// <summary>
