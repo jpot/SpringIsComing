@@ -13,7 +13,6 @@ public class SpringIsComing : PhysicsGame
     public static int TILE_SIZE = 40;
     static Timer timer;
 
-    // TODO add level selection menu
     // TODO add restart level and back to level selection menus
     int levelNumber = 1;
 
@@ -28,12 +27,12 @@ public class SpringIsComing : PhysicsGame
     Player player1, player2;
 
     // TODO add snow pile image
-    // TODO add yellow flower image
     Image waterbucketImage = LoadImage("vesisanko");
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
     Image flowerImage = LoadImage("kukka1");
+    Image flowerImage2 = LoadImage("kukka2");
     Image snowballImage = LoadImage("lumipallo");
     Image grill1Image = LoadImage("Grilli1");
     Image grill2Image = LoadImage("Grilli2");
@@ -47,6 +46,7 @@ public class SpringIsComing : PhysicsGame
                                  "BigLumiukkoJump4",
                                  "BigLumiukkoJump5",
                                  "BigLumiukkoJump6");
+    Image[] candleAnimation = LoadImages("kynttila", "kynttila2");
                                  
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
@@ -65,17 +65,33 @@ public class SpringIsComing : PhysicsGame
         //LoadNextLevel();    
     }
 
+    /// <summary>
+    /// Shows start menu with background image
+    /// </summary>
     void StartMenu()
     {
+        GameObject menuBackgroundScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
+        // FIXME Add menubackground image
+        //menuBackgroundScreen.Image = startMenuImage;
+        menuBackgroundScreen.Color = Color.Azure;
+        menuBackgroundScreen.Width = Screen.Width;
+        menuBackgroundScreen.Height = Screen.Height;
+        Add(menuBackgroundScreen);
+
         MultiSelectWindow startMenu = new MultiSelectWindow("Spring is coming",
-                                        "Start game", "Level selection", "Exit");
+                                        "Start game", "Level selection", "Credits", "Exit");
         startMenu.AddItemHandler(0, LoadNextLevel);
         startMenu.AddItemHandler(1, LevelSelection);
-        startMenu.AddItemHandler(2, Exit);
-        startMenu.DefaultCancel = 2;
+        startMenu.AddItemHandler(2, Credits);
+        startMenu.AddItemHandler(3, Exit);
+        startMenu.DefaultCancel = -1;
+        
         Add(startMenu);
     }
 
+    /// <summary>
+    /// Shows level selection menu
+    /// </summary>
     void LevelSelection()
     {
         MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
@@ -87,6 +103,33 @@ public class SpringIsComing : PhysicsGame
         levelSelectionMenu.AddItemHandler(4, StartMenu);
         levelSelectionMenu.DefaultCancel = 4;
         Add(levelSelectionMenu);
+    }
+
+    /// <summary>
+    /// Shows credits
+    /// </summary>
+    void Credits()
+    {
+        GameObject creditsScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
+        //creditsScreen.Image = creditsImage;
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+        Keyboard.Listen( Key.Enter, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+        ControllerOne.Listen(Button.A, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+        ControllerOne.Listen(Button.B, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
+
+        Add(creditsScreen);
+    }
+
+    /// <summary>
+    /// Clears credits screen and goes back to start menu.
+    /// </summary>
+    /// <param name="creditsScreenToBeCleared">background image to destroy before going back to start menu</param>
+    void ClearCredits(GameObject creditsScreenToBeCleared)
+    {
+        creditsScreenToBeCleared.Destroy();
+        Keyboard.Clear();
+        ControllerOne.Clear();
+        StartMenu(); 
     }
 
     /// <summary>
@@ -121,12 +164,15 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('#', AddWall);
         level.SetTileMethod('*', AddStar);
         level.SetTileMethod('v', AddFlower);
+        level.SetTileMethod('k', AddFlower2);
         level.SetTileMethod('f', AddCampfire);
+        level.SetTileMethod('C', AddBigCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
         level.SetTileMethod('S', AddFieryStone);
         level.SetTileMethod('s', AddFieryStone2);
         level.SetTileMethod('V', AddWaterContainer);
+        level.SetTileMethod('c', AddCandle);
         level.Execute(TILE_SIZE, TILE_SIZE);
         Level.CreateBorders();
         Level.Background.CreateGradient(Color.White, Color.Green);
@@ -188,17 +234,38 @@ public class SpringIsComing : PhysicsGame
         AddTile(position, width, height, flowerImage, true, "flower");
     }
 
+    void AddFlower2(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, flowerImage2, true, "flower");
+    }
+
     void AddStar(Vector position, double width, double height)
     {
         AddTile(position, width, height, starImage, true, "star");
     }
     
+    void AddCandle(Vector position, double width, double height)
+    {
+        PhysicsObject candle = AddTile(position, width, height, null, false, "candle");
+        candle.Animation = new Animation(candleAnimation);
+        candle.Animation.FPS = 5;
+        candle.Animation.Start();
+    }
+
     void AddCampfire(Vector position, double width, double height)
     {
         PhysicsObject campfire = AddTile(position, width, height, null, false, "campfire");
         campfire.Animation = new Animation(campFire);
         campfire.Animation.FPS = 5;
         campfire.Animation.Start();
+    }
+
+    void AddBigCampfire(Vector position, double width, double height)
+    {
+        PhysicsObject Bigcampfire = AddTile(position+new Vector(0.5*width,-0.5*height), width*2, height*2, null, false, "campfire");
+        Bigcampfire.Animation = new Animation(campFire);
+        Bigcampfire.Animation.FPS = 5;
+        Bigcampfire.Animation.Start();
     }
 
     void AddWaterContainer(Vector position, double width, double height)
