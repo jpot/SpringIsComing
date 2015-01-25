@@ -24,7 +24,16 @@ public class SpringIsComing : PhysicsGame
     int smallDamage = 2;
     int greatDamage = 5;
 
+
+    Vector menuPosition = Vector.Zero; // default position for menus
+
     Player player1, player2;
+
+    // TODO add snow pile image
+    // TODO add yellow flower image
+    Image titleBackgroundImage = LoadImage("titlescreen");
+    Image jypeliImage = LoadImage("madewithjypeli");
+    Image creditsImage = LoadImage("creditscreen");
 
     // TODO add snow pile image
     Image waterbucketImage = LoadImage("vesisanko");
@@ -51,7 +60,7 @@ public class SpringIsComing : PhysicsGame
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
-    Image[] death = LoadImages("BigLumiukkoJump7",
+    Image[] deathp1 = LoadImages("BigLumiukkoJump7",
                                "BigLumiukkoJump8",
                                "BigLumiukkoJump6");
     // TODO load and use splash sound
@@ -61,8 +70,37 @@ public class SpringIsComing : PhysicsGame
     public override void Begin()
     {
         IsFullScreen = true;
-        StartMenu();
-        //LoadNextLevel();    
+
+        // Center position for menus:
+        this.menuPosition = new Vector(0, -Screen.Height / 8);
+        MadeWithJypeliScreen();
+        //StartMenu();  
+    }
+
+    void MadeWithJypeliScreen()
+    {
+        Level.Background.Color = Color.Black;
+        GameObject textObject = new GameObject(52.5, 25.1, Shape.Rectangle);
+        textObject.Position = Vector.Zero;
+        textObject.Color = Color.White;
+        textObject.Image = jypeliImage;
+        Add(textObject);
+        //Camera.ZoomTo(0 - Screen.Width / 5, 0 - Screen.Height / 4, 0 + Screen.Width / 5, 0 + Screen.Height / 4);
+        Timer zoomTimer = new Timer();
+        zoomTimer.Interval = 0.01;
+        zoomTimer.Timeout += delegate { 
+            textObject.Width *= 1.02;
+            textObject.Height *= 1.02;
+            // If zoomed big enough then stop zooming
+            if (textObject.Width > Screen.Width / 3 || textObject.Height > Screen.Height / 2.5)
+            {
+                zoomTimer.Stop();
+                // doesn't work for gameobjects with images :(
+                //textObject.FadeColorTo(Color.Black, 5.0);
+                Timer.SingleShot(1.8, StartMenu);
+            }
+        };
+        zoomTimer.Start();
     }
 
     /// <summary>
@@ -71,8 +109,7 @@ public class SpringIsComing : PhysicsGame
     void StartMenu()
     {
         GameObject menuBackgroundScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
-        // FIXME Add menubackground image
-        //menuBackgroundScreen.Image = startMenuImage;
+        menuBackgroundScreen.Image = titleBackgroundImage;
         menuBackgroundScreen.Color = Color.Azure;
         menuBackgroundScreen.Width = Screen.Width;
         menuBackgroundScreen.Height = Screen.Height;
@@ -85,8 +122,8 @@ public class SpringIsComing : PhysicsGame
         startMenu.AddItemHandler(2, Credits);
         startMenu.AddItemHandler(3, Exit);
         startMenu.DefaultCancel = -1;
-        
-        Add(startMenu);
+        startMenu.Position = menuPosition;
+        Timer.SingleShot(0.2, delegate { Add(startMenu); });
     }
 
     /// <summary>
@@ -111,8 +148,10 @@ public class SpringIsComing : PhysicsGame
     /// </summary>
     void Credits()
     {
+        ClearAll();
         GameObject creditsScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
-        //creditsScreen.Image = creditsImage;
+        creditsScreen.Image = creditsImage;
+        creditsScreen.Position = Vector.Zero;
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         Keyboard.Listen( Key.Enter, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         ControllerOne.Listen(Button.A, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
@@ -284,22 +323,24 @@ public class SpringIsComing : PhysicsGame
         
         this.player1.Animation.FPS = 10;
         this.player1.Destroyed += delegate
-                                        {
-                                            this.player1.Animation.Stop();
-                                            this.player1.Animation = new Animation(death);
-                                            this.player1.Animation.Start(1);
-                                            Death(this.player1);
-                                            MessageDisplay.Add("It's over");
+                                        { 
+                                            PhysicsObject deathanim = new PhysicsObject(player1.Width, player1.Height);
+                                            deathanim.Shape = Shape.Rectangle;
+                                            Add(deathanim);
+                                            deathanim.X = player1.Position.X;
+                                            deathanim.Y = player1.Position.Y;
+                                            deathanim.Animation = new Animation(deathp1);
+                                            deathanim.Animation.FPS = 5;
+                                            deathanim.Animation.Start(1);
+                                            deathanim.Animation.StopOnLastFrame = true;
+                                            Timer.SingleShot(1.0, delegate
+                                                                        {
+                                                                            Death(deathanim);
+                                                                            deathanim.Destroy();
+                                                                        }
+                                                            );
+                                            MessageDisplay.Add("It's over...");
                                         };
-        /*
-        if (this.player1.IsDestroyed)
-        {
-            this.player1.Animation = new Animation(death);
-            this.player1.Destroying += delegate { this.player1.Animation.Start(1); };
-            Death(this.player1);
-        }
-        */
-        //this.player1.Animation.Start();
         // TODO fix hitbox to be smaller than the actual animation
     }
 
@@ -308,6 +349,25 @@ public class SpringIsComing : PhysicsGame
         this.player2 = AddPlayer(position, width, height*2, player2Image, maximumLifeForPlayer2);
         this.player2.Animation = new Animation(snowMan2);
         this.player2.Animation.FPS = 10;
+        this.player2.Destroyed += delegate
+                                    {
+                                        PhysicsObject deathanim = new PhysicsObject(player2.Width, player2.Height);
+                                        deathanim.Shape = Shape.Rectangle;
+                                        Add(deathanim);
+                                        deathanim.X = player2.Position.X;
+                                        deathanim.Y = player2.Position.Y;
+                                        deathanim.Animation = new Animation(deathp1);
+                                        deathanim.Animation.FPS = 5;
+                                        deathanim.Animation.Start(1);
+                                        deathanim.Animation.StopOnLastFrame = true;
+                                        Timer.SingleShot(1.0, delegate
+                                                                {
+                                                                    Death(deathanim);
+                                                                    deathanim.Destroy();
+                                                                }
+                                                         );
+                                        MessageDisplay.Add("It's over...");
+                                    };
         //this.player2.Animation.Start();
     }
 
@@ -356,14 +416,14 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Up,     ButtonState.Down, Move, "Player 1: Move up",    player1, new Vector(             0, movementSpeed ));
         Keyboard.Listen(Key.Down,   ButtonState.Down, Move, "Player 1: Move down",  player1, new Vector(             0, -movementSpeed));
         
-        Keyboard.Listen(Key.Left, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Left, ButtonState.Released, AnimationStop, "hio", player1);
-        Keyboard.Listen(Key.Right, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Right, ButtonState.Released, AnimationStop, "hio", player1);
-        Keyboard.Listen(Key.Up, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Up, ButtonState.Released, AnimationStop, "hio", player1);
-        Keyboard.Listen(Key.Down, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Down, ButtonState.Released, AnimationStop, "hio", player1);
+        Keyboard.Listen(Key.Left,  ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Left,  ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
+        Keyboard.Listen(Key.Right, ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Right, ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
+        Keyboard.Listen(Key.Up,    ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Up,    ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
+        Keyboard.Listen(Key.Down,  ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Down,  ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
         
         Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
         
@@ -371,6 +431,15 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.W,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0,  movementSpeed));
         Keyboard.Listen(Key.S,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, -movementSpeed));
+
+        Keyboard.Listen(Key.A, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.A, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
+        Keyboard.Listen(Key.D, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.D, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
+        Keyboard.Listen(Key.W, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.W, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
+        Keyboard.Listen(Key.S, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.S, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
 
         Keyboard.Listen(Key.LeftControl, ButtonState.Pressed, ThrowSnowball, "Player 2: Throw snowball", player2);
 
