@@ -23,7 +23,7 @@ public class SpringIsComing : PhysicsGame
     int snowballThrowCost = 10;
     int snowHealAmount = 10;
     int smallDamage = 2;
-    int stoneDamage = 4;
+    int stoneDamage = 6;
     int greatDamage = 5;
 
 
