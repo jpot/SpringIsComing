@@ -293,15 +293,14 @@ public class SpringIsComing : PhysicsGame
                                             deathanim.Animation.FPS = 5;
                                             deathanim.Animation.Start(1);
                                             deathanim.Animation.StopOnLastFrame = true;
-                                            Timer.SingleShot(0.7, delegate
+                                            Timer.SingleShot(1.0, delegate
                                                                         {
                                                                             Death(deathanim);
+                                                                            deathanim.Destroy();
                                                                         }
                                                             );
-                                            deathanim.Destroy();
                                             MessageDisplay.Add("It's over...");
                                         };
-        //this.player1.Animation.Start();
         // TODO fix hitbox to be smaller than the actual animation
     }
 
@@ -321,12 +320,12 @@ public class SpringIsComing : PhysicsGame
                                         deathanim.Animation.FPS = 5;
                                         deathanim.Animation.Start(1);
                                         deathanim.Animation.StopOnLastFrame = true;
-                                        Timer.SingleShot(0.7, delegate
-                                        {
-                                            Death(deathanim);
-                                        }
-                                                        );
-                                        deathanim.Destroy();
+                                        Timer.SingleShot(1.0, delegate
+                                                                {
+                                                                    Death(deathanim);
+                                                                    deathanim.Destroy();
+                                                                }
+                                                         );
                                         MessageDisplay.Add("It's over...");
                                     };
         //this.player2.Animation.Start();
@@ -377,14 +376,14 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.Up,     ButtonState.Down, Move, "Player 1: Move up",    player1, new Vector(             0, movementSpeed ));
         Keyboard.Listen(Key.Down,   ButtonState.Down, Move, "Player 1: Move down",  player1, new Vector(             0, -movementSpeed));
         
-        Keyboard.Listen(Key.Left, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Left, ButtonState.Released, AnimationStop, "hio", player1);
-        Keyboard.Listen(Key.Right, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Right, ButtonState.Released, AnimationStop, "hio", player1);
-        Keyboard.Listen(Key.Up, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Up, ButtonState.Released, AnimationStop, "hio", player1);
-        Keyboard.Listen(Key.Down, ButtonState.Pressed, AnimationStart, "hio", player1);
-        Keyboard.Listen(Key.Down, ButtonState.Released, AnimationStop, "hio", player1);
+        Keyboard.Listen(Key.Left,  ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Left,  ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
+        Keyboard.Listen(Key.Right, ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Right, ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
+        Keyboard.Listen(Key.Up,    ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Up,    ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
+        Keyboard.Listen(Key.Down,  ButtonState.Pressed,  AnimationStart, "Player 1 Anim start", player1);
+        Keyboard.Listen(Key.Down,  ButtonState.Released, AnimationStop,  "Player 1 Anim stop",  player1);
         
         Keyboard.Listen(Key.RightControl, ButtonState.Pressed, ThrowSnowball, "Player 1: Throw snowball", player1);
         
@@ -392,6 +391,15 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.W,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0,  movementSpeed));
         Keyboard.Listen(Key.S,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, -movementSpeed));
+
+        Keyboard.Listen(Key.A, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.A, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
+        Keyboard.Listen(Key.D, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.D, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
+        Keyboard.Listen(Key.W, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.W, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
+        Keyboard.Listen(Key.S, ButtonState.Pressed,  AnimationStart, "Player 2 Anim start", player2);
+        Keyboard.Listen(Key.S, ButtonState.Released, AnimationStop,  "Player 2 Anim stop",  player2);
 
         Keyboard.Listen(Key.LeftControl, ButtonState.Pressed, ThrowSnowball, "Player 2: Throw snowball", player2);
 
