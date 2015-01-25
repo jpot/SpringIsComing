@@ -24,6 +24,7 @@ public class SpringIsComing : PhysicsGame
     int smallDamage = 2;
     int greatDamage = 5;
 
+
     Vector menuPosition = Vector.Zero; // default position for menus
 
     Player player1, player2;
@@ -32,11 +33,15 @@ public class SpringIsComing : PhysicsGame
     // TODO add yellow flower image
     Image titleBackgroundImage = LoadImage("titlescreen");
     Image jypeliImage = LoadImage("madewithjypeli");
+    Image creditsImage = LoadImage("creditscreen");
+
+    // TODO add snow pile image
     Image waterbucketImage = LoadImage("vesisanko");
     Image playerImage = LoadImage("Lumiukko");
     Image player2Image = LoadImage("LumiukkoPlaceholderd");
     Image starImage = LoadImage("tahti");
     Image flowerImage = LoadImage("kukka1");
+    Image flowerImage2 = LoadImage("kukka2");
     Image snowballImage = LoadImage("lumipallo");
     Image grill1Image = LoadImage("Grilli1");
     Image grill2Image = LoadImage("Grilli2");
@@ -55,6 +60,9 @@ public class SpringIsComing : PhysicsGame
     Image[] snowMan2 = LoadImages("Lumiukko", "Lumiukko2J", "Lumiukko3J");
     Image wallImage = LoadImage("Seina");
     SoundEffect goalSound = LoadSoundEffect("maali");
+    Image[] death = LoadImages("BigLumiukkoJump7",
+                               "BigLumiukkoJump8",
+                               "BigLumiukkoJump6");
     // TODO load and use splash sound
     // TODO load and use snowball throwing sound
     // TODO draw, load and use melting/dying animation for both players
@@ -124,14 +132,14 @@ public class SpringIsComing : PhysicsGame
     void LevelSelection()
     {
         MultiSelectWindow levelSelectionMenu = new MultiSelectWindow("Level selection",
-                                                "Level 1", "Level 2", "Level 3", "Level 4", "Back");
+                                                "Level 1", "Level 2", "Level 3", "Level 4", "Challenge", "Back");
         levelSelectionMenu.AddItemHandler(0, delegate { this.levelNumber = 1; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(1, delegate { this.levelNumber = 2; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(2, delegate { this.levelNumber = 3; LoadNextLevel(); });
         levelSelectionMenu.AddItemHandler(3, delegate { this.levelNumber = 4; LoadNextLevel(); });
-        levelSelectionMenu.AddItemHandler(4, StartMenu);
-        levelSelectionMenu.DefaultCancel = 4;
-        levelSelectionMenu.Position = menuPosition;
+        levelSelectionMenu.AddItemHandler(4, delegate { this.levelNumber = 5; LoadNextLevel(); });
+        levelSelectionMenu.AddItemHandler(5, StartMenu);
+        levelSelectionMenu.DefaultCancel = 5;
         Add(levelSelectionMenu);
     }
 
@@ -142,16 +150,14 @@ public class SpringIsComing : PhysicsGame
     {
         ClearAll();
         GameObject creditsScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
-        //creditsScreen.Image = creditsImage;
-        creditsScreen.Color = Color.White;
+        creditsScreen.Image = creditsImage;
         creditsScreen.Position = Vector.Zero;
-
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         Keyboard.Listen( Key.Enter, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         ControllerOne.Listen(Button.A, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
         ControllerOne.Listen(Button.B, ButtonState.Pressed, delegate { ClearCredits(creditsScreen); }, "Back to start menu");
 
-        Add(creditsScreen, 1);
+        Add(creditsScreen);
     }
 
     /// <summary>
@@ -177,7 +183,8 @@ public class SpringIsComing : PhysicsGame
         else if (levelNumber == 2) LoadLevel("kentta2");
         else if (levelNumber == 3) LoadLevel("kentta3");
         else if (levelNumber == 4) LoadLevel("kentta4");
-        else if (levelNumber > 4) Exit();
+        else if (levelNumber == 5) LoadLevel("kentta5");
+        else if (levelNumber > 5) Exit();
 
         AddKeys();
 
@@ -198,7 +205,9 @@ public class SpringIsComing : PhysicsGame
         level.SetTileMethod('#', AddWall);
         level.SetTileMethod('*', AddStar);
         level.SetTileMethod('v', AddFlower);
+        level.SetTileMethod('k', AddFlower2);
         level.SetTileMethod('f', AddCampfire);
+        level.SetTileMethod('C', AddBigCampfire);
         level.SetTileMethod('1', AddPlayer1);
         level.SetTileMethod('2', AddPlayer2);
         level.SetTileMethod('S', AddFieryStone);
@@ -266,6 +275,11 @@ public class SpringIsComing : PhysicsGame
         AddTile(position, width, height, flowerImage, true, "flower");
     }
 
+    void AddFlower2(Vector position, double width, double height)
+    {
+        AddTile(position, width, height, flowerImage2, true, "flower");
+    }
+
     void AddStar(Vector position, double width, double height)
     {
         AddTile(position, width, height, starImage, true, "star");
@@ -273,7 +287,7 @@ public class SpringIsComing : PhysicsGame
     
     void AddCandle(Vector position, double width, double height)
     {
-        PhysicsObject candle = AddTile(position, width, height, null, false, "candle");
+        PhysicsObject candle = AddTile(position, width, height, null, true, "candle");
         candle.Animation = new Animation(candleAnimation);
         candle.Animation.FPS = 5;
         candle.Animation.Start();
@@ -287,6 +301,14 @@ public class SpringIsComing : PhysicsGame
         campfire.Animation.Start();
     }
 
+    void AddBigCampfire(Vector position, double width, double height)
+    {
+        PhysicsObject Bigcampfire = AddTile(position+new Vector(0.5*width,-0.5*height), width*2, height*2, null, false, "campfire");
+        Bigcampfire.Animation = new Animation(campFire);
+        Bigcampfire.Animation.FPS = 5;
+        Bigcampfire.Animation.Start();
+    }
+
     void AddWaterContainer(Vector position, double width, double height)
     {
         PhysicsObject watercontainer = AddPushableObject(position, width, height, waterbucketImage, "vesisanko");
@@ -297,7 +319,24 @@ public class SpringIsComing : PhysicsGame
     {
         this.player1 = AddPlayer(position, width, height*2, playerImage, maximumLifeForPlayer1);
         this.player1.Animation = new Animation(snowMan);
+        
         this.player1.Animation.FPS = 10;
+        this.player1.Destroyed += delegate
+                                        {
+                                            this.player1.Animation.Stop();
+                                            this.player1.Animation = new Animation(death);
+                                            this.player1.Animation.Start(1);
+                                            Death(this.player1);
+                                            MessageDisplay.Add("It's over");
+                                        };
+        /*
+        if (this.player1.IsDestroyed)
+        {
+            this.player1.Animation = new Animation(death);
+            this.player1.Destroying += delegate { this.player1.Animation.Start(1); };
+            Death(this.player1);
+        }
+        */
         //this.player1.Animation.Start();
         // TODO fix hitbox to be smaller than the actual animation
     }
@@ -339,6 +378,7 @@ public class SpringIsComing : PhysicsGame
         newPlayer.CanRotate = false;
         AddCollisionHandler(newPlayer, "star", HitStar);
         AddCollisionHandler(newPlayer, "campfire", HitCampfire);
+        AddCollisionHandler(newPlayer, "candle", HitCandle);
         AddCollisionHandler(newPlayer, "snow", HitSnow);
         Add(newPlayer);
         return newPlayer;
@@ -369,8 +409,8 @@ public class SpringIsComing : PhysicsGame
         Keyboard.Listen(Key.D,      ButtonState.Down, Move, "Player 2: Move right", player2, new Vector( movementSpeed, 0             ));
         Keyboard.Listen(Key.W,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0,  movementSpeed));
         Keyboard.Listen(Key.S,      ButtonState.Down, Move, "Player 2: Move up",    player2, new Vector(             0, -movementSpeed));
-        
 
+        Keyboard.Listen(Key.LeftControl, ButtonState.Pressed, ThrowSnowball, "Player 2: Throw snowball", player2);
 
         //Keyboard.Listen(Key.Up, ButtonState.Pressed, Jump, "Player 1: Move up", pelaaja1, hyppyNopeus);
 
@@ -434,6 +474,10 @@ public class SpringIsComing : PhysicsGame
         HitGreatFire(collider, target);
     }
 
+    void HitCandle(PhysicsObject collider, PhysicsObject target)
+    {
+        HitSmallFire(collider, target);
+    }
 
     void HitGreatFire(PhysicsObject collider, PhysicsObject target)
     {
@@ -484,6 +528,18 @@ public class SpringIsComing : PhysicsGame
 
         collider.Destroy();
         target.Destroy();
+    }
+
+    void Death(PhysicsObject collider)
+    {
+        Explosion splash = new Explosion(TILE_SIZE);
+        splash.Position = collider.Position;
+        Add(splash);
+        splash.Image = null;
+        splash.ShockwaveColor = Color.Blue;
+        splash.Sound = null; // TODO add soundeffect
+
+        collider.Destroy();
     }
 
     void HitGoal(PhysicsObject character, PhysicsObject goal)
