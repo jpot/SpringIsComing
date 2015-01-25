@@ -258,7 +258,6 @@ public class SpringIsComing : PhysicsGame
         return newPushableObject;
     }
 
-    ///TODO tästä kerättävä objekti:
     void AddSnowpile(Vector position, double width, double height)
     {
         AddTile(position, width, height, snowpileImage, false, "snow");
