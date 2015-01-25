@@ -156,6 +156,7 @@ public class SpringIsComing : PhysicsGame
     void StartMenu()
     {
         MediaPlayer.Play("PlaceholderMusicEvgeny_Grinko_-_01_-_Winter_Sunshine");
+        MediaPlayer.IsRepeating = true;
         GameObject menuBackgroundScreen = new GameObject(Screen.Width, Screen.Height, Shape.Rectangle);
         menuBackgroundScreen.Image = titleBackgroundImage;
         menuBackgroundScreen.Color = Color.Azure;
